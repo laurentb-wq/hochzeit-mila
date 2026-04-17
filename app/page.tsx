@@ -250,14 +250,6 @@ export default function Home() {
               ))}
             </div>
 
-            <AnimatedSection delay={0.5}>
-              <Card className="mt-4 text-center">
-                <p className="text-sm italic" style={{ color: MUTED }}>
-                  🚂 Den Zug verpasst? Nutze die Zeit für ein Ständchen vor dem Bahnhof.
-                  Wir erfahren davon.
-                </p>
-              </Card>
-            </AnimatedSection>
           </div>
         </section>
 
