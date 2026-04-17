@@ -22,8 +22,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background: #EAEDDA;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
 }
 
 body {
@@ -32,5 +33,3 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
-
-section { scroll-margin-top: 60px; }
