@@ -260,7 +260,7 @@ export default function FullPageLayout() {
           </div>
           <p className="text-base font-bold mb-1" style={{ color: "#CDD5B0" }}>Mirjam & Laurent</p>
           <p className="text-sm" style={{ color: "rgba(205,213,176,0.55)" }}>14. August 2026 · Zehendermätteli, Bern</p>
-          <p className="text-xs mt-3" style={{ color: "rgba(205,213,176,0.3)" }}>Made with 💚</p>
+          <p className="text-xs mt-3" style={{ color: "rgba(205,213,176,0.3)" }}>Made with 💚 und viel Hilfe von Claude Code</p>
         </footer>
       </section>
 
