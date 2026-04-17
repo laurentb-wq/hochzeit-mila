@@ -263,7 +263,7 @@ export default function FullPageLayout() {
             </div>
           </div>
         </div>
-        <footer className="px-6 py-8 text-center flex-shrink-0" style={{ background: "#1E2614" }}>
+        <footer className="px-6 py-8 mt-8 sm:mt-0 text-center flex-shrink-0" style={{ background: "#1E2614" }}>
           <div className="flex justify-center gap-3 mb-4">
             {["/Mibilabo2.JPG", "/mibilabo3.JPG", "/Mibilabo1.jpg"].map((src, i) => (
               <div key={i} className="rounded-xl overflow-hidden" style={{ width: 50, height: 50, opacity: 0.85 }}>
