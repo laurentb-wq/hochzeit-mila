@@ -233,9 +233,11 @@ export default function Home() {
             <div className="space-y-3">
               {[
                 { icon: "🚌", title: "Bus Nr. 21", from: "Bern Bahnhof → Rossfeld", note: "Empfehlung — ÖV = entspannte Feier 🍾" },
-                { icon: "🚆", title: "RBS S9", from: "Bern Bahnhof → Tiefenau", note: "Klingt weit, ist Bern — also nah" },
                 { icon: "⛵", title: "Mit der Fähre", from: "Übers Wasser", note: "Automatische Coolness-Punkte" },
-                { icon: "🚗", title: "Auto", from: "Irgendwo → Bern", note: "Möglich — aber Warnung oben beachten" },
+                { icon: "🚗", title: "Auto", from: "Irgendwo → Bern", note: "Warnung oben beachten" },
+                { icon: "🚶", title: "Zu Fuss", from: "Ab Tiefenau (RBS S9)", note: "Kurze Strecke entlang der Aare" },
+                { icon: "🚲", title: "Publibike", from: "Eigene Station vor Ort", note: "Direkt beim Zehendermätteli" },
+                { icon: "🚕", title: "Taxi", from: "Bern Zentrum → Zehendermätteli", note: "" },
               ].map(({ icon, title, from, note }, i) => (
                 <AnimatedSection key={title} delay={0.1 + i * 0.07}>
                   <Card className="flex items-center gap-4">
