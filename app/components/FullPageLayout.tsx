@@ -36,7 +36,15 @@ const NAV_H = 64;
 
 export default function FullPageLayout() {
   const [active, setActive] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,17 +56,22 @@ export default function FullPageLayout() {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: isMobile ? 0.2 : 0.5 }
     );
     sectionRefs.current.forEach(r => r && observer.observe(r));
     return () => observer.disconnect();
-  }, []);
+  }, [isMobile]);
 
   function scrollTo(i: number) {
     sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth" });
   }
 
-  const sectionStyle: React.CSSProperties = {
+  const sectionStyle: React.CSSProperties = isMobile ? {
+    minHeight: "100svh",
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: NAV_H,
+  } : {
     height: "100svh",
     minHeight: "-webkit-fill-available",
     scrollSnapAlign: "start",

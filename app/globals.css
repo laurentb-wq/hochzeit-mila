@@ -23,8 +23,13 @@
 
 html {
   background: #EAEDDA;
-  scroll-snap-type: y mandatory;
   overflow-y: scroll;
+}
+
+@media (min-width: 640px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
 }
 
 body {
