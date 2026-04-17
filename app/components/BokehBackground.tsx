@@ -13,14 +13,13 @@ interface Orb {
   phaseSpeed: number;
 }
 
-// rgb values for each color
 const PALETTE = [
-  "92, 107, 58",     // #5C6B3A dark olive
-  "116, 130, 90",    // medium olive
-  "160, 175, 120",   // light olive
-  "200, 210, 155",   // pale sage
-  "210, 190, 110",   // warm gold
-  "185, 175, 95",    // muted gold
+  "92, 107, 58",
+  "116, 130, 90",
+  "160, 175, 120",
+  "200, 210, 155",
+  "210, 190, 110",
+  "185, 175, 95",
 ];
 
 const ORB_COUNT = 32;
@@ -51,38 +50,43 @@ export default function BokehBackground() {
 
     let animId: number;
     let orbs: Orb[] = [];
+    let cssW = 0;
+    let cssH = 0;
 
     function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      cssW = window.innerWidth;
+      cssH = window.innerHeight;
+      // Set actual pixel size scaled by DPR
+      canvas.width = cssW * dpr;
+      canvas.height = cssH * dpr;
+      // Scale context so drawing coords stay in CSS pixels
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function init() {
       resize();
-      orbs = Array.from({ length: ORB_COUNT }, () =>
-        randomOrb(canvas.width, canvas.height)
-      );
+      orbs = Array.from({ length: ORB_COUNT }, () => randomOrb(cssW, cssH));
     }
 
     function tick() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, cssW, cssH);
 
       for (const o of orbs) {
         o.phase += o.phaseSpeed;
         o.x += o.vx;
         o.y += o.vy;
 
-        // wrap around viewport
-        if (o.x < -o.r) o.x = canvas.width + o.r;
-        else if (o.x > canvas.width + o.r) o.x = -o.r;
-        if (o.y < -o.r) o.y = canvas.height + o.r;
-        else if (o.y > canvas.height + o.r) o.y = -o.r;
+        if (o.x < -o.r) o.x = cssW + o.r;
+        else if (o.x > cssW + o.r) o.x = -o.r;
+        if (o.y < -o.r) o.y = cssH + o.r;
+        else if (o.y > cssH + o.r) o.y = -o.r;
 
         const opacity = o.baseOpacity * (0.65 + 0.35 * Math.sin(o.phase));
         const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
-        g.addColorStop(0,   `rgba(${o.color}, ${opacity})`);
+        g.addColorStop(0,    `rgba(${o.color}, ${opacity})`);
         g.addColorStop(0.45, `rgba(${o.color}, ${opacity * 0.35})`);
-        g.addColorStop(1,   `rgba(${o.color}, 0)`);
+        g.addColorStop(1,    `rgba(${o.color}, 0)`);
 
         ctx.beginPath();
         ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
@@ -113,6 +117,7 @@ export default function BokehBackground() {
         height: "100%",
         pointerEvents: "none",
         zIndex: -1,
+        willChange: "transform",
       }}
     />
   );
