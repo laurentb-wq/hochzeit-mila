@@ -282,7 +282,7 @@ export default function FullPageLayout() {
       </div>
 
       {/* ── LINE NAVIGATION ── */}
-      <div style={{ position: "fixed", right: 20, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 8, zIndex: 50 }}>
+      <div style={{ position: "fixed", right: 6, top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: 8, zIndex: 50 }}>
         {Array.from({ length: SECTION_COUNT }).map((_, i) => (
           <button key={i} onClick={() => scrollTo(i)}
             style={{
