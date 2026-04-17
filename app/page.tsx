@@ -35,7 +35,7 @@ export default function Home() {
       {/* ── NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614" }}>
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-          <span className="font-bold text-sm tracking-widest" style={{ color: "#CDD5B0" }}>MILA</span>
+          <span />
           <div className="hidden sm:flex gap-6 text-sm font-medium">
             {[["#programm","Programm"],["#dresscode","Dresscode"],["#anreise","Anreise"],["#anmeldung","Anmeldung"]].map(([h,l]) => (
               <a key={h} href={h} className="hover:opacity-70 transition-opacity" style={{ color: "rgba(205,213,176,0.7)" }}>{l}</a>
