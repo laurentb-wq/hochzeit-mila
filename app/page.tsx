@@ -34,8 +34,8 @@ export default function Home() {
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614" }}>
-        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-          <span />
+        <div className="max-w-6xl mx-auto px-6 h-16 sm:h-20 flex items-center justify-between">
+          <span className="text-xs font-semibold tracking-widest sm:invisible" style={{ color: "#CDD5B0" }}>M & L</span>
           <div className="hidden sm:flex gap-6 text-sm font-medium">
             {[["#programm","Programm"],["#dresscode","Dresscode"],["#anreise","Anreise"],["#anmeldung","Anmeldung"]].map(([h,l]) => (
               <a key={h} href={h} className="hover:opacity-70 transition-opacity" style={{ color: "rgba(205,213,176,0.7)" }}>{l}</a>
@@ -49,14 +49,14 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="pt-20">
+      <main className="pt-16 sm:pt-20">
 
         {/* ── HERO ── */}
-        <section className="flex flex-col items-center justify-center text-center px-6 py-28 sm:py-36">
+        <section className="flex flex-col items-center justify-center text-center px-6 py-16 sm:py-36">
           <AnimatedSection>
-            <div className="flex justify-center gap-3 mb-8">
+            <div className="flex justify-center gap-2 sm:gap-3 mb-8">
               {["/Mibilabo2.JPG", "/mibilabo3.JPG", "/Mibilabo1.jpg"].map((src, i) => (
-                <div key={i} className="rounded-2xl overflow-hidden shadow-md" style={{ width: 135, height: 135 }}>
+                <div key={i} className="rounded-2xl overflow-hidden shadow-md" style={{ width: "clamp(80px, 25vw, 135px)", height: "clamp(80px, 25vw, 135px)" }}>
                   <img src={src} alt="" className="w-full h-full object-cover" />
                 </div>
               ))}
@@ -70,7 +70,7 @@ export default function Home() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.1}>
-            <h1 className="text-5xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>
+            <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>
               das wollen wir feiern!
             </h1>
           </AnimatedSection>
@@ -127,7 +127,7 @@ export default function Home() {
 
 
         {/* ── PROGRAMM ── */}
-        <section id="programm" className="px-6 py-20">
+        <section id="programm" className="px-6 py-12 sm:py-20">
           <div className="max-w-3xl mx-auto">
             <AnimatedSection>
               <SectionHeader label="Der grosse Tag" title="Programm" />
@@ -159,7 +159,7 @@ export default function Home() {
         </section>
 
         {/* ── DRESSCODE ── */}
-        <section id="dresscode" className="px-6 py-20">
+        <section id="dresscode" className="px-6 py-12 sm:py-20">
           <div className="max-w-3xl mx-auto">
             <AnimatedSection>
               <SectionHeader label="Was anziehen?" title="Dresscode" />
@@ -209,7 +209,7 @@ export default function Home() {
 
 
         {/* ── ANREISE ── */}
-        <section id="anreise" className="px-6 py-20">
+        <section id="anreise" className="px-6 py-12 sm:py-20">
           <div className="max-w-3xl mx-auto">
             <AnimatedSection>
               <SectionHeader label="Wie komme ich hin?" title="Anreise" />
@@ -261,19 +261,19 @@ export default function Home() {
         </section>
 
         {/* ── ANMELDUNG ── */}
-        <section id="anmeldung" className="px-6 py-20">
+        <section id="anmeldung" className="px-6 py-12 sm:py-20">
           <div className="max-w-lg mx-auto">
             <AnimatedSection>
               <SectionHeader label="Bist du dabei?" title="Anmeldung" />
             </AnimatedSection>
             <AnimatedSection delay={0.1}>
               <p className="text-center text-sm mb-8" style={{ color: MUTED }}>
-                Bitte bis <strong style={{ color: "#1E2614" }}>1. Juli 2025</strong> anmelden —
+                Bitte bis <strong style={{ color: "#1E2614" }}>1. Juli 2026</strong> anmelden —
                 damit die Küche weiss wie viele Teller sie aufwärmen soll.
               </p>
             </AnimatedSection>
             <AnimatedSection delay={0.15}>
-              <div className="bg-white rounded-2xl border border-[#CDD5B0] p-6">
+              <div className="bg-white rounded-2xl border border-[#CDD5B0] p-4 sm:p-6">
                 <RsvpForm />
               </div>
             </AnimatedSection>
