@@ -23,20 +23,20 @@ const PALETTE = [
   "185, 175, 95",    // muted gold
 ];
 
-const ORB_COUNT = 22;
+const ORB_COUNT = 32;
 
 function randomOrb(w: number, h: number): Orb {
-  const r = 80 + Math.random() * 200;
+  const r = 120 + Math.random() * 260;
   return {
     x: Math.random() * w,
     y: Math.random() * h,
     r,
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.3,
-    baseOpacity: 0.22 + Math.random() * 0.25,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    baseOpacity: 0.35 + Math.random() * 0.35,
     color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
     phase: Math.random() * Math.PI * 2,
-    phaseSpeed: 0.004 + Math.random() * 0.006,
+    phaseSpeed: 0.008 + Math.random() * 0.012,
   };
 }
 
