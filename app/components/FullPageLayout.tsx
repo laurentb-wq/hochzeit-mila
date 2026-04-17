@@ -94,11 +94,7 @@ export default function FullPageLayout() {
               );
             })}
           </div>
-          <a href="#" onClick={(e) => { e.preventDefault(); scrollTo(4); }}
-            className="text-xs font-semibold px-4 py-2 rounded-full text-white transition-opacity hover:opacity-80"
-            style={{ background: ACCENT }}>
-            Anmelden
-          </a>
+          <span />
         </div>
       </nav>
 
