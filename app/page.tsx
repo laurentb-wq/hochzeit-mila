@@ -291,7 +291,7 @@ export default function Home() {
             ))}
           </div>
           <p className="text-lg font-bold mb-1" style={{ color: "#CDD5B0" }}>Mirjam & Laurent</p>
-          <p className="text-sm" style={{ color: "rgba(205,213,176,0.55)" }}>14. August 2026 · Zehendermätteli im Glück, Bern</p>
+          <p className="text-sm" style={{ color: "rgba(205,213,176,0.55)" }}>14. August 2026 · Zehendermätteli, Bern</p>
           <p className="text-xs mt-4" style={{ color: "rgba(205,213,176,0.3)" }}>Made with 💚</p>
         </footer>
 
