@@ -77,7 +77,7 @@ export default function FullPageLayout() {
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614", height: NAV_H }}>
         <div className="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
           <span />
-          <div className="hidden sm:flex gap-6 text-sm">
+          <div className="flex gap-3 sm:gap-6 text-xs sm:text-sm">
             {NAV_LINKS.map(({ label, idx }) => {
               const isActive = active === idx;
               return (
