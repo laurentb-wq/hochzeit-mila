@@ -35,14 +35,10 @@ export default function Home() {
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614" }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2">
-          <div className="flex gap-3 sm:gap-6 text-xs sm:text-sm font-medium">
-            {[["#programm","Programm"],["#dresscode","Dresscode"],["#anreise","Anreise"],["#anmeldung","Anmeldung"]].map(([h,l]) => (
-              <a key={h} href={h} className="hover:opacity-70 transition-opacity whitespace-nowrap" style={{ color: "rgba(205,213,176,0.8)" }}>{l}</a>
-            ))}
-          </div>
+        <div className="max-w-6xl mx-auto px-6 h-16 sm:h-20 flex items-center justify-between">
+          <NavMenu />
           <a href="#anmeldung"
-            className="text-xs font-semibold px-3 sm:px-4 py-2 rounded-full text-white transition-opacity hover:opacity-80 whitespace-nowrap flex-shrink-0"
+            className="text-xs font-semibold px-4 py-2 rounded-full text-white transition-opacity hover:opacity-80"
             style={{ background: ACCENT }}>
             Anmelden
           </a>
