@@ -63,7 +63,8 @@ export default function FullPageLayout() {
   const NAV_H = 64;
 
   const sectionStyle: React.CSSProperties = {
-    height: `calc(100vh - ${NAV_H}px)`,
+    height: `calc(100svh - ${NAV_H}px)`,
+    minHeight: `calc(100vh - ${NAV_H}px)`,
     scrollSnapAlign: "start",
     overflowY: "auto",
     display: "flex",
@@ -103,9 +104,11 @@ export default function FullPageLayout() {
         ref={containerRef}
         style={{
           marginTop: NAV_H,
-          height: `calc(100vh - ${NAV_H}px)`,
+          height: `calc(100svh - ${NAV_H}px)`,
+          minHeight: `calc(100vh - ${NAV_H}px)`,
           overflowY: "scroll",
           scrollSnapType: "y mandatory",
+          WebkitOverflowScrolling: "touch",
         }}
       >
 
