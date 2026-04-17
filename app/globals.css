@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --bg: #EAEDDA;
+  --accent: #5C6B3A;
+  --accent-dark: #3E4D25;
+  --accent-light: #CDD5B0;
+  --text: #1E2614;
+  --muted: #74825A;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: #EAEDDA;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: transparent;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+section { scroll-margin-top: 60px; }
