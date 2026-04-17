@@ -102,7 +102,7 @@ export default function Home() {
               <Card className="space-y-2 h-full flex flex-col">
                 <p className="text-2xl">📍</p>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Location</p>
-                <p className="font-bold text-base" style={{ color: "#1E2614" }}>Zehendermätteli im Glück</p>
+                <p className="font-bold text-base" style={{ color: "#1E2614" }}>Zehendermätteli</p>
                 <p className="text-sm flex-1" style={{ color: MUTED }}>Reichenbachstrasse 161, 3004 Bern</p>
                 <a href="https://maps.google.com/?q=Reichenbachstrasse+161+3004+Bern"
                   target="_blank" rel="noopener noreferrer"
