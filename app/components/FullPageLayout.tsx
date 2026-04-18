@@ -129,21 +129,22 @@ export default function FullPageLayout() {
               <p className="text-2xl">📅</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Datum</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>14. August 2026</p>
-              <p className="text-sm flex-1" style={{ color: MUTED }}>Ab ca. 15:30 Uhr bis die Sterne zählen</p>
+              <p className="text-sm flex-1" style={{ color: MUTED }}>Ab ca. 15:30 Uhr</p>
+              <button onClick={() => scrollTo(1)} className="inline-block text-sm font-semibold hover:opacity-70 transition-opacity mt-auto text-left" style={{ color: ACCENT, background: "none", border: "none", cursor: "pointer" }}>Zum Programm →</button>
             </Card>
             <Card className="space-y-2 flex flex-col">
               <p className="text-2xl">📍</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Location</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>Zehendermätteli</p>
               <p className="text-sm flex-1" style={{ color: MUTED }}>Reichenbachstrasse 161, 3004 Bern</p>
-              <a href="https://maps.google.com/?q=Reichenbachstrasse+161+3004+Bern" target="_blank" rel="noopener noreferrer" className="inline-block text-sm font-semibold hover:opacity-70 transition-opacity mt-auto" style={{ color: ACCENT }}>Google Maps →</a>
+              <a href="https://maps.google.com/?q=Reichenbachstrasse+161+3004+Bern" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold hover:opacity-70 transition-opacity mt-auto text-center block" style={{ color: ACCENT }}>Google Maps →</a>
             </Card>
             <Card className="space-y-2 flex flex-col">
               <p className="text-2xl">📋</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Anmeldung</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>Bis 1. Juli 2026</p>
-              <p className="text-sm flex-1" style={{ color: MUTED }}>Damit die Küche weiss, wie viele Teller sie aufwärmen soll.</p>
-              <button onClick={() => scrollTo(4)} className="inline-block text-sm font-semibold hover:opacity-70 transition-opacity mt-auto text-left" style={{ color: ACCENT, background: "none", border: "none", cursor: "pointer" }}>Jetzt anmelden →</button>
+              <p className="text-sm flex-1" style={{ color: MUTED }}>Damit wir gut planen können.</p>
+              <button onClick={() => scrollTo(4)} className="text-sm font-semibold hover:opacity-70 transition-opacity mt-auto text-center block w-full" style={{ color: ACCENT, background: "none", border: "none", cursor: "pointer" }}>Jetzt anmelden →</button>
             </Card>
           </div>
         </div>
