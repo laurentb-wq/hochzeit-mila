@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const TARGET = new Date("2026-08-14T16:00:00");
 
@@ -12,41 +12,6 @@ function getLeft() {
     minutes: Math.floor((d % 3600000) / 60000),
     seconds: Math.floor((d % 60000) / 1000),
   };
-}
-
-function AnimatedNumber({ value }: { value: number }) {
-  const str = String(value).padStart(2, "0");
-  const prev = useRef(str);
-  const [display, setDisplay] = useState(str);
-  const [animating, setAnimating] = useState(false);
-
-  useEffect(() => {
-    if (str === prev.current) return;
-    setAnimating(true);
-    const id = setTimeout(() => {
-      setDisplay(str);
-      prev.current = str;
-      setAnimating(false);
-    }, 180);
-    return () => clearTimeout(id);
-  }, [str]);
-
-  return (
-    <div style={{ overflow: "hidden", lineHeight: 1 }}>
-      <span
-        style={{
-          display: "block",
-          transform: animating ? "translateY(-100%)" : "translateY(0)",
-          opacity: animating ? 0 : 1,
-          transition: animating
-            ? "transform 0.18s ease-in, opacity 0.18s ease-in"
-            : "transform 0.18s ease-out, opacity 0.18s ease-out",
-        }}
-      >
-        {display}
-      </span>
-    </div>
-  );
 }
 
 export default function Countdown() {
@@ -71,7 +36,7 @@ export default function Countdown() {
             className="text-2xl sm:text-5xl font-bold tabular-nums"
             style={{ color: "var(--accent)" }}
           >
-            <AnimatedNumber value={v} />
+            {String(v).padStart(2, "0")}
           </span>
           <span className="text-[9px] sm:text-xs uppercase tracking-widest font-medium" style={{ color: "var(--muted)" }}>
             {l}
