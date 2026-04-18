@@ -24,15 +24,17 @@ const PALETTE = [
 
 const ORB_COUNT = 32;
 
-function randomOrb(w: number, h: number): Orb {
-  const r = 120 + Math.random() * 260;
+function randomOrb(w: number, h: number, mobile: boolean): Orb {
+  const r = mobile
+    ? 35 + Math.random() * 55
+    : 120 + Math.random() * 260;
   return {
     x: Math.random() * w,
     y: Math.random() * h,
     r,
     vx: (Math.random() - 0.5) * 0.575,
     vy: (Math.random() - 0.5) * 0.575,
-    baseOpacity: 0.35 + Math.random() * 0.35,
+    baseOpacity: mobile ? 0.55 + Math.random() * 0.35 : 0.35 + Math.random() * 0.35,
     color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
     phase: Math.random() * Math.PI * 2,
     phaseSpeed: 0.008 + Math.random() * 0.012,
@@ -66,7 +68,8 @@ export default function BokehBackground() {
 
     function init() {
       resize();
-      orbs = Array.from({ length: ORB_COUNT }, () => randomOrb(cssW, cssH));
+      const mobile = cssW < 640;
+      orbs = Array.from({ length: ORB_COUNT }, () => randomOrb(cssW, cssH, mobile));
     }
 
     function tick() {
