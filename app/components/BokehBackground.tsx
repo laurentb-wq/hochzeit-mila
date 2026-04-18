@@ -26,7 +26,7 @@ const ORB_COUNT = 32;
 
 function randomOrb(w: number, h: number, mobile: boolean): Orb {
   const r = mobile
-    ? 35 + Math.random() * 55
+    ? 65 + Math.random() * 85
     : 120 + Math.random() * 260;
   return {
     x: Math.random() * w,
@@ -34,7 +34,7 @@ function randomOrb(w: number, h: number, mobile: boolean): Orb {
     r,
     vx: (Math.random() - 0.5) * 0.575,
     vy: (Math.random() - 0.5) * 0.575,
-    baseOpacity: mobile ? 0.55 + Math.random() * 0.35 : 0.35 + Math.random() * 0.35,
+    baseOpacity: mobile ? 0.42 + Math.random() * 0.28 : 0.35 + Math.random() * 0.35,
     color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
     phase: Math.random() * Math.PI * 2,
     phaseSpeed: 0.008 + Math.random() * 0.012,
