@@ -129,7 +129,7 @@ export default function FullPageLayout() {
               <p className="text-2xl">📅</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Datum</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>14. August 2026</p>
-              <p className="text-sm flex-1" style={{ color: MUTED }}>Ab ca. 15:30 Uhr</p>
+              <p className="text-sm flex-1" style={{ color: MUTED }}>Start: 16:00 Uhr</p>
               <button onClick={() => scrollTo(1)} className="text-sm font-semibold hover:opacity-70 transition-opacity mt-auto text-center block w-full" style={{ color: ACCENT, background: "none", border: "none", cursor: "pointer" }}>Zum Programm →</button>
             </Card>
             <Card className="space-y-2 flex flex-col">
