@@ -103,8 +103,8 @@ export default function FullPagePreview() {
                 </div>
               ))}
             </div>
-            <p className="text-sm mb-4 font-light" style={{ color: MUTED }}>Wir haben den nächsten Schritt gewagt und 💍</p>
-            <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>das wollen wir feiern!</h1>
+            <p className="text-sm mb-4 font-light" style={{ color: MUTED }}>Wir haben ja gesagt</p>
+            <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>DAS WOLLEN WIR FEIERN!</h1>
             <p className="text-lg font-light mb-10" style={{ color: MUTED }}>14. August 2026 · Zehendermätteli · Bern</p>
             <Countdown />
             <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 w-full">
@@ -167,16 +167,14 @@ export default function FullPagePreview() {
           <section className="px-6 py-12 flex-1">
             <div className="max-w-3xl mx-auto">
               <SectionHeader label="Was anziehen?" title="Dresscode" />
-              <div className="rounded-2xl overflow-hidden mb-4">
-                <img src="/Dresscode.jpg" alt="Dresscode" className="w-full object-cover max-h-64" />
-              </div>
+
               <Card className="text-center space-y-2 mb-3">
-                <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Festlich — mit Leichtigkeit</p>
+                <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Sommerlich Festlich</p>
                 <p className="text-sm leading-relaxed" style={{ color: MUTED }}>Elegant genug für ein Hochzeitsfoto, bequem genug für die Tanzfläche um Mitternacht. Das Brautpaar ist automatisch das Schönste im Raum — du kannst entspannt auftreten. 😉</p>
               </Card>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
                 {[
-                  { icon: "✅", title: "Go for it", items: ["Elegante Kleidung", "Farbe & Freude", "Tanzschuhe", "Sonnenschutz"] },
+                  { icon: "✅", title: "Go for it", items: ["Elegante Kleidung", "Farbe & Freude", "Leinen", "Sonnenschutz"] },
                   { icon: "🚫", title: "Lieber nicht", items: ["Weiss (reserviert)", "Pyjama", "Gummistiefel"] },
                   { icon: "☀️", title: "Wichtig", items: ["August, Aare, Sonne", "Draussen & im Zelt", "Badesachen? Vielleicht 😄"] },
                 ].map(({ icon, title, items }) => (

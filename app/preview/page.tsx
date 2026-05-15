@@ -44,8 +44,8 @@ export default function PreviewPage() {
             ))}
           </div>
           <div style={{ background: OLIVE_LIGHT, padding: "32px 28px", textAlign: "center", border: `1px solid ${BORDER}`, borderTop: "none", borderRadius: "0 0 16px 16px" }}>
-            <p style={{ color: MUTED, fontSize: 12, marginBottom: 6 }}>Wir haben den nächsten Schritt gewagt und 💍</p>
-            <p style={{ color: DARK, fontSize: 22, fontWeight: 800 }}>das wollen wir feiern!</p>
+            <p style={{ color: MUTED, fontSize: 12, marginBottom: 6 }}>Wir haben ja gesagt</p>
+            <p style={{ color: DARK, fontSize: 22, fontWeight: 800 }}>DAS WOLLEN WIR FEIERN!</p>
           </div>
         </div>
       </section>
@@ -78,8 +78,8 @@ export default function PreviewPage() {
             ))}
           </div>
           <div style={{ background: OLIVE_LIGHT, padding: "32px 28px", textAlign: "center", border: `1px solid ${BORDER}`, borderTop: "none", borderRadius: "0 0 16px 16px" }}>
-            <p style={{ color: MUTED, fontSize: 12, marginBottom: 6 }}>Wir haben den nächsten Schritt gewagt und 💍</p>
-            <p style={{ color: DARK, fontSize: 22, fontWeight: 800 }}>das wollen wir feiern!</p>
+            <p style={{ color: MUTED, fontSize: 12, marginBottom: 6 }}>Wir haben ja gesagt</p>
+            <p style={{ color: DARK, fontSize: 22, fontWeight: 800 }}>DAS WOLLEN WIR FEIERN!</p>
           </div>
         </div>
       </section>
@@ -114,8 +114,8 @@ export default function PreviewPage() {
             ))}
           </div>
           <div style={{ background: OLIVE_LIGHT, padding: "32px 28px", textAlign: "center", border: `1px solid ${BORDER}`, borderTop: "none", borderRadius: "0 0 16px 16px" }}>
-            <p style={{ color: MUTED, fontSize: 12, marginBottom: 6 }}>Wir haben den nächsten Schritt gewagt und 💍</p>
-            <p style={{ color: DARK, fontSize: 22, fontWeight: 800 }}>das wollen wir feiern!</p>
+            <p style={{ color: MUTED, fontSize: 12, marginBottom: 6 }}>Wir haben ja gesagt</p>
+            <p style={{ color: DARK, fontSize: 22, fontWeight: 800 }}>DAS WOLLEN WIR FEIERN!</p>
           </div>
         </div>
       </section>
