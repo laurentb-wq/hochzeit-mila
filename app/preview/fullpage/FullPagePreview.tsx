@@ -137,25 +137,22 @@ export default function FullPagePreview() {
           <section className="px-6 py-12 flex-1">
             <div className="max-w-3xl mx-auto">
               <SectionHeader label="Der grosse Tag" title="Programm" />
-              <div className="space-y-3">
+              <div className="relative">
+                <div className="absolute left-[52px] top-4 bottom-4 w-px" style={{ background: "#D6DCC8" }} />
                 {[
-                  { time: "15:30", icon: "👋", title: "Eintreffen & Ankommen", desc: "Komm pünktlich, such dir einen guten Platz und tu so, als hättest du die Location schon immer gekannt. Sekt steht bereit." },
-                  { time: "16:00", icon: "💍", title: "Startschuss & Spalier stehen", desc: "Jetzt wird's ernst. Spalier aufstellen, Konfetti bereithalten, Taschentücher nicht vergessen. Handy auf stumm — wirklich." },
-                  { time: "18:30", icon: "🍽️", title: "Abendessen", desc: "Endlich. Das Warten hat sich gelohnt. Mehrere Gänge, gutes Essen, noch bessere Gesellschaft." },
-                  { time: "21:30", icon: "🍰", title: "Dessert", desc: "Der süsse Höhepunkt des Abends — Torte, Glück und Zuckerschock inklusive." },
-                  { time: "01:00", icon: "🎶", title: "Letzte Runde", desc: "Die Beine schmerzen, die Stimme ist heiser — und trotzdem will niemand gehen." },
-                  { time: "01:30", icon: "🌙", title: "Ende (wer noch kann)", desc: "Offizielles Ende für alle, die morgen früh aufstehen müssen. Wer noch steht, darf bleiben." },
-                ].map(({ time, icon, title, desc }) => (
-                  <Card key={title} className="flex items-start gap-4">
-                    <span className="text-xl mt-0.5 flex-shrink-0">{icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-0.5">
-                        <span className="text-xs font-bold tabular-nums" style={{ color: ACCENT }}>{time}</span>
-                        <span className="font-semibold text-sm" style={{ color: "#1E2614" }}>{title}</span>
-                      </div>
-                      <p className="text-sm" style={{ color: MUTED }}>{desc}</p>
-                    </div>
-                  </Card>
+                  { time: "ab 15:30", icon: "👋", title: "Eintreffen" },
+                  { time: "16:00",    icon: "💍", title: "Spalier stehen" },
+                  { time: "16:15",    icon: "🥂", title: "Apéro" },
+                  { time: "18:30",    icon: "🍽️", title: "Abendessen" },
+                  { time: "21:30",    icon: "🍰", title: "Dessert" },
+                  { time: "01:00",    icon: "🌙", title: "Letzte Runde" },
+                  { time: "01:30",    icon: "✨", title: "Schluss" },
+                ].map(({ time, icon, title }) => (
+                  <div key={title} className="flex items-center gap-4 py-3 relative">
+                    <span className="text-xs font-semibold tabular-nums text-right w-10 flex-shrink-0 leading-none" style={{ color: MUTED }}>{time}</span>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 z-10 text-base" style={{ background: "#F0F2EA", border: "1.5px solid #D6DCC8" }}>{icon}</div>
+                    <span className="font-semibold text-sm" style={{ color: "#1E2614" }}>{title}</span>
+                  </div>
                 ))}
               </div>
             </div>
