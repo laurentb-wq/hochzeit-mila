@@ -259,17 +259,17 @@ export default function FullPageLayout() {
             </div>
           </div>
         </div>
-        <footer className="px-6 py-8 mt-8 sm:mt-0 text-center flex-shrink-0" style={{ background: "#1E2614" }}>
-          <div className="flex justify-center gap-3 mb-4">
+        <footer className="px-6 py-4 sm:py-3 mt-6 sm:mt-0 text-center flex-shrink-0" style={{ background: "#1E2614" }}>
+          <div className="flex justify-center gap-2 mb-2">
             {["/Mibilabo2.JPG", "/mibilabo3.JPG", "/Mibilabo1.jpg"].map((src, i) => (
-              <div key={i} className="rounded-xl overflow-hidden" style={{ width: 50, height: 50, opacity: 0.85 }}>
+              <div key={i} className="rounded-lg overflow-hidden" style={{ width: 36, height: 36, opacity: 0.85 }}>
                 <img src={src} alt="" className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
-          <p className="text-base font-bold mb-1" style={{ color: "#CDD5B0" }}>Mirjam & Laurent</p>
-          <p className="text-sm" style={{ color: "rgba(205,213,176,0.55)" }}>14. August 2026 · Zehendermätteli, Bern</p>
-          <p className="text-xs mt-3" style={{ color: "rgba(205,213,176,0.3)" }}>Made with 💚 und viel Hilfe von Claude</p>
+          <p className="text-sm font-bold mb-0.5" style={{ color: "#CDD5B0" }}>Mirjam & Laurent</p>
+          <p className="text-xs" style={{ color: "rgba(205,213,176,0.55)" }}>14. August 2026 · Zehendermätteli, Bern</p>
+          <p className="text-xs mt-1" style={{ color: "rgba(205,213,176,0.3)" }}>Made with 💚 und viel Hilfe von Claude</p>
         </footer>
       </section>
 
