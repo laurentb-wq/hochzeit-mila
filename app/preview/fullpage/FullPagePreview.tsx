@@ -137,8 +137,8 @@ export default function FullPagePreview() {
           <section className="px-6 py-12 flex-1">
             <div className="max-w-3xl mx-auto">
               <SectionHeader label="Der grosse Tag" title="Programm" />
-              <div className="relative">
-                <div className="absolute left-[52px] top-4 bottom-4 w-px" style={{ background: "#D6DCC8" }} />
+              <div className="relative max-w-xs mx-auto sm:max-w-lg">
+                <div className="absolute left-[52px] sm:left-1/2 sm:-translate-x-1/2 top-4 bottom-4 w-px" style={{ background: "#D6DCC8" }} />
                 {[
                   { time: "ab 15:30", icon: "👋", title: "Eintreffen" },
                   { time: "16:00",    icon: "💍", title: "Spalier stehen" },
@@ -148,10 +148,10 @@ export default function FullPagePreview() {
                   { time: "01:00",    icon: "🌙", title: "Letzte Runde" },
                   { time: "01:30",    icon: "✨", title: "Schluss" },
                 ].map(({ time, icon, title }) => (
-                  <div key={title} className="flex items-center gap-4 py-3 relative">
-                    <span className="text-xs font-semibold tabular-nums text-right w-10 flex-shrink-0 leading-none" style={{ color: MUTED }}>{time}</span>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 z-10 text-base" style={{ background: "#F0F2EA", border: "1.5px solid #D6DCC8" }}>{icon}</div>
-                    <span className="font-semibold text-sm" style={{ color: "#1E2614" }}>{title}</span>
+                  <div key={title} className="flex items-center gap-4 py-3 relative sm:gap-0">
+                    <span className="text-xs font-semibold tabular-nums text-right w-10 flex-shrink-0 leading-none sm:w-1/2 sm:pr-5 sm:text-sm" style={{ color: MUTED }}>{time}</span>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 z-10 text-base sm:w-10 sm:h-10 sm:text-lg" style={{ background: "#F0F2EA", border: "1.5px solid #D6DCC8" }}>{icon}</div>
+                    <span className="font-semibold text-sm sm:w-1/2 sm:pl-5 sm:text-base" style={{ color: "#1E2614" }}>{title}</span>
                   </div>
                 ))}
               </div>
