@@ -172,8 +172,8 @@ export default function FullPagePreview() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
                 {[
                   { icon: "✅", title: "Go for it", items: ["Elegante Kleidung", "Farbe & Freude", "Leinen", "Sonnenschutz"] },
-                  { icon: "🚫", title: "Lieber nicht", items: ["Weiss (reserviert)", "Pyjama", "Gummistiefel"] },
-                  { icon: "☀️", title: "Wichtig", items: ["August, Aare, Sonne", "Draussen & im Zelt", "Badesachen? Vielleicht 😄"] },
+                  { icon: "🚫", title: "Lieber nicht", items: ["Pyjama", "Gummistiefel"] },
+                  { icon: "☀️", title: "Wichtig", items: ["August, Aare, Sonne", "Draussen & im Gewächshaus", "Badesachen? Vielleicht 😄"] },
                 ].map(({ icon, title, items }) => (
                   <Card key={title} className="h-full">
                     <div className="flex items-center gap-2 mb-3">
