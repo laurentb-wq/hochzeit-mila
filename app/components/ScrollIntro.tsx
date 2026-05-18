@@ -90,46 +90,9 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
       el.style.filter    = "brightness(0.55) blur(0px)";
     });
 
-    // Velocity tracking for directional snap
-    let lastY  = window.scrollY;
-    let lastT  = Date.now();
-    let vel    = 0; // px/ms, positive = scrolling down
-
-    // Snap state
-    let isSnapping = false;
-    let snapTimer: ReturnType<typeof setTimeout>;
-
-    function snap() {
-      if (isSnapping) return;
-      const y     = window.scrollY;
-      const ratio = y / slideH;
-      if (ratio >= 3 || ratio <= 0) return;
-      const floor    = Math.floor(Math.min(ratio, 2.999));
-      const progress = ratio - floor;
-      if (progress < 0.015 || progress > 0.985) return; // already at boundary
-
-      // Snap forward if moving fast downward, or past 50%
-      const goNext = vel > 0.15 || (vel >= 0 && progress >= 0.5);
-      const target = goNext ? (floor + 1) * slideH : floor * slideH;
-
-      isSnapping = true;
-      window.scrollTo({ top: target, behavior: "smooth" });
-      setTimeout(() => { isSnapping = false; }, 900);
-    }
-
     let ticking = false;
 
     const onScroll = () => {
-      // Track velocity
-      const now = Date.now();
-      const dt  = now - lastT;
-      if (dt > 0) vel = (window.scrollY - lastY) / dt;
-      lastY = window.scrollY;
-      lastT = now;
-
-      // Schedule snap when scroll pauses
-      clearTimeout(snapTimer);
-      snapTimer = setTimeout(snap, 120);
 
       if (ticking) return;
       ticking = true;
@@ -188,13 +151,9 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
 
     const t = setTimeout(() => setTitleVisible(true), 300);
     window.addEventListener("scroll", onScroll, { passive: true });
-    // scrollend fires when momentum scrolling fully stops (modern browsers)
-    window.addEventListener("scrollend", snap, { passive: true });
     return () => {
       clearTimeout(t);
-      clearTimeout(snapTimer);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("scrollend", snap);
     };
   }, [onDone]);
 
