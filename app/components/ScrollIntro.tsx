@@ -152,7 +152,7 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
       const target    = Math.max(0, Math.min(3, current + direction));
       wheelLocked = true;
       window.scrollTo({ top: target * slideH, behavior: "smooth" });
-      setTimeout(() => { wheelLocked = false; }, 850);
+      setTimeout(() => { wheelLocked = false; }, 1100);
     };
 
     // --- Touch: clamp to ±1 slide, snap on release ---
