@@ -5,6 +5,10 @@ import AdminList from "./AdminList";
 
 import type { Rsvp } from "./AdminList";
 
+const arrivalLabel: Record<string, string> = {
+  auto: "🚗 Auto", ov: "🚌 ÖV & Fähre", velo: "🚲 Velo", fuss: "🚶 Zu Fuss",
+};
+
 export default async function AdminPage() {
   const cookieStore = await cookies();
   const auth = cookieStore.get("admin_auth")?.value;
@@ -28,6 +32,26 @@ export default async function AdminPage() {
   const kids = yes.reduce((s, r) => s + (r.children_count ?? 0), 0);
   const arrivals = { auto: 0, ov: 0, velo: 0, fuss: 0 };
   yes.forEach(r => { if (r.arrival && r.arrival in arrivals) arrivals[r.arrival as keyof typeof arrivals]++; });
+
+  // Kursübersicht: wer ist bei welchem Gang noch dabei
+  let apero = 0, hauptgang = 0, dessert = 0;
+  yes.forEach(r => {
+    const a = r.adult2_name ? 2 : 1;
+    const k = r.children_count ?? 0;
+    apero += a + k;
+    if (k === 0 || !r.kids_stay || r.kids_stay === "nach_dessert") {
+      hauptgang += a + (r.kids_stay === "nach_dessert" ? k : 0);
+      dessert   += a + (r.kids_stay === "nach_dessert" ? k : 0);
+    } else if (r.kids_stay === "nach_apero") {
+      const leave = r.kids_parents_leave === "ja_alle" ? a : r.kids_parents_leave === "nein_ein_elternteil" ? 1 : 0;
+      hauptgang += a - leave;
+      dessert   += a - leave;
+    } else if (r.kids_stay === "nach_hauptgang") {
+      hauptgang += a + k;
+      const leave = r.kids_parents_leave === "ja_alle" ? a : r.kids_parents_leave === "nein_ein_elternteil" ? 1 : 0;
+      dessert   += a - leave;
+    }
+  });
 
   return (
     <div style={{ background: "#EAEDDA", minHeight: "100vh", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -53,6 +77,33 @@ export default async function AdminPage() {
             </div>
           ))}
         </div>
+
+        {/* Kursübersicht */}
+        {yes.length > 0 && (
+          <div className="bg-white rounded-2xl border border-[#CDD5B0] p-5 mb-4">
+            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: "#5C6B3A" }}>Bestellübersicht — Wer ist noch dabei</p>
+            <div className="space-y-3">
+              {[
+                { label: "🥂 Apéro", count: apero, sub: "ab 16:15" },
+                { label: "🍽️ Hauptgang", count: hauptgang, sub: "ab 18:30" },
+                { label: "🍰 Dessert", count: dessert, sub: "ab 21:30" },
+              ].map(({ label, count, sub }) => (
+                <div key={label} className="flex items-center gap-4">
+                  <div className="flex-1">
+                    <div className="flex justify-between items-baseline mb-1">
+                      <span className="text-sm font-semibold" style={{ color: "#1E2614" }}>{label}</span>
+                      <span className="text-sm font-bold" style={{ color: "#5C6B3A" }}>{count} Pers.</span>
+                    </div>
+                    <div className="h-2 rounded-full overflow-hidden" style={{ background: "#F0F3E8" }}>
+                      <div className="h-full rounded-full" style={{ width: apero > 0 ? `${(count / apero) * 100}%` : "0%", background: "#5C6B3A", transition: "width 0.5s" }} />
+                    </div>
+                    <p className="text-xs mt-0.5" style={{ color: "#8A9870" }}>{sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Anreise */}
         {yes.length > 0 && (
