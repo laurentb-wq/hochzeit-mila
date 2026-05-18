@@ -1,6 +1,72 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
+const BOKEH_PALETTE = [
+  "92, 107, 58",
+  "116, 130, 90",
+  "160, 175, 120",
+  "200, 210, 155",
+  "210, 190, 110",
+  "185, 175, 95",
+];
+
+function useBokehCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // 8 orbs clustered around centre
+    const orbs = Array.from({ length: 8 }, () => ({
+      x: W * 0.3 + Math.random() * W * 0.4,
+      y: H * 0.25 + Math.random() * H * 0.5,
+      r: 120 + Math.random() * 200,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      baseOpacity: 0.18 + Math.random() * 0.18,
+      color: BOKEH_PALETTE[Math.floor(Math.random() * BOKEH_PALETTE.length)],
+      phase: Math.random() * Math.PI * 2,
+      phaseSpeed: 0.007 + Math.random() * 0.01,
+    }));
+
+    let animId: number;
+    function tick() {
+      ctx!.clearRect(0, 0, W, H);
+      for (const o of orbs) {
+        o.phase += o.phaseSpeed;
+        o.x += o.vx;
+        o.y += o.vy;
+        if (o.x < -o.r) o.x = W + o.r;
+        else if (o.x > W + o.r) o.x = -o.r;
+        if (o.y < -o.r) o.y = H + o.r;
+        else if (o.y > H + o.r) o.y = -o.r;
+        const op = o.baseOpacity * (0.65 + 0.35 * Math.sin(o.phase));
+        const g = ctx!.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0,    `rgba(${o.color}, ${op})`);
+        g.addColorStop(0.5,  `rgba(${o.color}, ${op * 0.3})`);
+        g.addColorStop(1,    `rgba(${o.color}, 0)`);
+        ctx!.beginPath();
+        ctx!.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+        ctx!.fillStyle = g;
+        ctx!.fill();
+      }
+      animId = requestAnimationFrame(tick);
+    }
+    tick();
+    return () => cancelAnimationFrame(animId);
+  }, []);
+  return canvasRef;
+}
+
 const SLIDES = [
   {
     src: "/Mibilabo2.JPG",
@@ -25,6 +91,7 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
   const [done, setDone] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const prevIndex = useRef(0);
+  const bokehRef = useBokehCanvas();
 
   useEffect(() => {
     const slideH = window.innerHeight;
@@ -94,6 +161,18 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
             />
           ))}
 
+          {/* Bokeh colour orbs — above photos, below text */}
+          <canvas
+            ref={bokehRef}
+            style={{
+              position: "absolute", inset: 0,
+              width: "100%", height: "100%",
+              pointerEvents: "none",
+              zIndex: 1,
+              mixBlendMode: "screen",
+            }}
+          />
+
           {/* Text content */}
           <div style={{
             position: "absolute", inset: 0,
@@ -102,6 +181,7 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
             textAlign: "center", padding: "0 24px",
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             color: "white",
+            zIndex: 2,
           }}>
             <h1 style={{
               fontSize: "clamp(28px, 6vw, 64px)",
