@@ -146,9 +146,10 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
           el.style.opacity   = String(Math.max(0, Math.min(1, opacity)));
         });
 
-        // Text rises upward as you scroll through the slide
+        // Text blurs out as slide transitions, then sharpens on new slide
         if (textRef.current) {
-          textRef.current.style.transform = `translateY(${-progress * 50}px)`;
+          const textBlur = progress > 0.55 ? ((progress - 0.55) / 0.45) * 8 : 0;
+          textRef.current.style.filter = `blur(${textBlur}px)`;
         }
       });
     };
@@ -215,7 +216,7 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               color: "white",
               zIndex: 2,
-              willChange: "transform",
+              willChange: "filter",
             }}
           >
             <h1 style={{
