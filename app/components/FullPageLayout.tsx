@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Countdown from "./Countdown";
 import RsvpForm from "./RsvpForm";
+import HeroImages from "./HeroImages";
 
 const ACCENT = "#5C6B3A";
 const MUTED = "#74825A";
@@ -113,13 +114,7 @@ export default function FullPageLayout() {
       {/* ── HERO ── */}
       <section ref={el => { sectionRefs.current[0] = el; }} style={sectionStyle}>
         <div className="flex flex-col items-center justify-center text-center px-6 py-10 flex-1">
-          <div className="flex justify-center gap-2 sm:gap-3 mb-8">
-            {["/Mibilabo2.JPG", "/mibilabo3.JPG", "/Mibilabo1.jpg"].map((src, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden shadow-md" style={{ width: "clamp(80px, 25vw, 135px)", height: "clamp(80px, 25vw, 135px)" }}>
-                <img src={src} alt="" className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
+          <HeroImages />
           <p className="text-sm mb-4 font-light" style={{ color: MUTED }}>Wir haben ja gesagt</p>
           <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>DAS WOLLEN WIR FEIERN!</h1>
           <p className="text-lg font-light mb-8" style={{ color: MUTED }}>14. August 2026 · Zehendermätteli · Bern</p>
