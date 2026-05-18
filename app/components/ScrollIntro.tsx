@@ -25,14 +25,17 @@ function useBokehCanvas() {
     canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // 8 orbs clustered around centre
-    const orbs = Array.from({ length: 8 }, () => ({
-      x: W * 0.3 + Math.random() * W * 0.4,
-      y: H * 0.25 + Math.random() * H * 0.5,
-      r: 120 + Math.random() * 200,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      baseOpacity: 0.18 + Math.random() * 0.18,
+    const cx = W / 2;
+    const cy = H / 2;
+
+    // Orbs tight around text centre
+    const orbs = Array.from({ length: 10 }, () => ({
+      x: cx + (Math.random() - 0.5) * W * 0.45,
+      y: cy + (Math.random() - 0.5) * H * 0.28,
+      r: 70 + Math.random() * 130,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      baseOpacity: 0.38 + Math.random() * 0.28,
       color: BOKEH_PALETTE[Math.floor(Math.random() * BOKEH_PALETTE.length)],
       phase: Math.random() * Math.PI * 2,
       phaseSpeed: 0.007 + Math.random() * 0.01,
@@ -43,12 +46,11 @@ function useBokehCanvas() {
       ctx!.clearRect(0, 0, W, H);
       for (const o of orbs) {
         o.phase += o.phaseSpeed;
+        // Soft spring back to centre so orbs stay near the text
+        o.vx += (cx - o.x) * 0.0004;
+        o.vy += (cy - o.y) * 0.0004;
         o.x += o.vx;
         o.y += o.vy;
-        if (o.x < -o.r) o.x = W + o.r;
-        else if (o.x > W + o.r) o.x = -o.r;
-        if (o.y < -o.r) o.y = H + o.r;
-        else if (o.y > H + o.r) o.y = -o.r;
         const op = o.baseOpacity * (0.65 + 0.35 * Math.sin(o.phase));
         const g = ctx!.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
         g.addColorStop(0,    `rgba(${o.color}, ${op})`);
