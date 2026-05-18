@@ -90,10 +90,9 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
       el.style.filter    = "brightness(0.55) blur(0px)";
     });
 
+    // --- Parallax: driven by scroll position via RAF ---
     let ticking = false;
-
     const onScroll = () => {
-
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
@@ -122,23 +121,17 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
 
         imageRefs.current.forEach((el, i) => {
           if (!el) return;
-          const local = ratio - i;
-
-          const translateY = local * 70;
-
+          const local   = ratio - i;
           const outBlur = local > 0.55 ? ((local - 0.55) / 0.45) * 14 : 0;
           const inBlur  = local < 0 && local > -0.45 ? ((-local) / 0.45) * 8 : 0;
-          const blur    = Math.max(outBlur, inBlur);
-
-          let opacity = 0;
+          let opacity   = 0;
           if (local >= 0 && local <= 1) {
             opacity = local > 0.65 ? 1 - ((local - 0.65) / 0.35) * 0.6 : 1;
           } else if (local > -0.45 && local < 0) {
             opacity = (local + 0.45) / 0.45;
           }
-
-          el.style.transform = `translateY(${translateY}px)`;
-          el.style.filter    = `brightness(0.55) blur(${blur}px)`;
+          el.style.transform = `translateY(${local * 70}px)`;
+          el.style.filter    = `brightness(0.55) blur(${Math.max(outBlur, inBlur)}px)`;
           el.style.opacity   = String(Math.max(0, Math.min(1, opacity)));
         });
 
@@ -149,11 +142,58 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
       });
     };
 
+    // --- Wheel: exactly one slide per gesture ---
+    let wheelLocked = false;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (wheelLocked) return;
+      const current   = Math.round(window.scrollY / slideH);
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const target    = Math.max(0, Math.min(3, current + direction));
+      wheelLocked = true;
+      window.scrollTo({ top: target * slideH, behavior: "smooth" });
+      setTimeout(() => { wheelLocked = false; }, 850);
+    };
+
+    // --- Touch: clamp to ±1 slide, snap on release ---
+    let touchStartY       = 0;
+    let touchStartScrollY = 0;
+    let touchStartSlide   = 0;
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY       = e.touches[0].clientY;
+      touchStartScrollY = window.scrollY;
+      touchStartSlide   = Math.round(window.scrollY / slideH);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const deltaY = touchStartY - e.touches[0].clientY;
+      const minY   = touchStartSlide * slideH;
+      const maxY   = (touchStartSlide + 1) * slideH;
+      window.scrollTo({ top: Math.max(minY, Math.min(maxY, touchStartScrollY + deltaY)), behavior: "instant" });
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      const deltaY    = touchStartY - e.changedTouches[0].clientY;
+      const direction = deltaY > 40 ? 1 : deltaY < -40 ? -1 : 0;
+      const target    = Math.max(0, Math.min(3, touchStartSlide + direction));
+      window.scrollTo({ top: target * slideH, behavior: "smooth" });
+    };
+
     const t = setTimeout(() => setTitleVisible(true), 300);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll",     onScroll,     { passive: true });
+    window.addEventListener("wheel",      onWheel,      { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove",  onTouchMove,  { passive: false });
+    window.addEventListener("touchend",   onTouchEnd,   { passive: true });
     return () => {
       clearTimeout(t);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll",     onScroll);
+      window.removeEventListener("wheel",      onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove",  onTouchMove);
+      window.removeEventListener("touchend",   onTouchEnd);
     };
   }, [onDone]);
 
