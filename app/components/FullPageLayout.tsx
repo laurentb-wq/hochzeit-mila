@@ -260,7 +260,7 @@ export default function FullPageLayout() {
           </div>
         </div>
         <footer className="px-6 py-4 sm:py-3 mt-6 sm:mt-0 text-center flex-shrink-0" style={{ background: "#1E2614" }}>
-          <p className="text-xs" style={{ color: "rgba(205,213,176,0.5)" }}>Mirjam & Laurent · 14. August 2026 · Zehendermätteli, Bern · Made with 💚 & Claude Code</p>
+          <p className="text-xs" style={{ color: "rgba(205,213,176,0.5)" }}>Made with 💚 & Claude Code</p>
         </footer>
       </section>
 
