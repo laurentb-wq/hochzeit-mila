@@ -100,20 +100,9 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
             display: "flex", flexDirection: "column",
             alignItems: "center", justifyContent: "center",
             textAlign: "center", padding: "0 24px",
-            fontFamily: "'Georgia', serif",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
             color: "white",
           }}>
-            <p style={{
-              fontSize: "clamp(13px, 2vw, 16px)",
-              letterSpacing: "0.18em",
-              fontWeight: 400,
-              marginBottom: "16px",
-              opacity: titleVisible ? 1 : 0,
-              transition: "opacity 0.6s ease",
-              textTransform: "uppercase",
-            }}>
-              {slide.small}
-            </p>
             <h1 style={{
               fontSize: "clamp(28px, 6vw, 64px)",
               fontWeight: 700,
@@ -134,7 +123,7 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
               position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)",
               display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
               color: "rgba(255,255,255,0.7)",
-              fontFamily: "'Georgia', serif",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: 12, letterSpacing: "0.12em",
               opacity: titleVisible ? 1 : 0,
               transition: "opacity 1s ease 0.5s",
@@ -154,7 +143,7 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
               border: "1px solid rgba(255,255,255,0.3)",
               borderRadius: 999,
               color: "white",
-              fontFamily: "'Georgia', serif",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: 13,
               padding: "8px 18px",
               cursor: "pointer",
