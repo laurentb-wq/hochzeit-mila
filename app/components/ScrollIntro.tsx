@@ -85,20 +85,58 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
     // Apply initial state immediately so slide 0 is visible
     imageRefs.current.forEach((el, i) => {
       if (!el) return;
-      el.style.opacity    = i === 0 ? "1" : "0";
-      el.style.transform  = "translateY(0px)";
-      el.style.filter     = "brightness(0.55) blur(0px)";
+      el.style.opacity   = i === 0 ? "1" : "0";
+      el.style.transform = "translateY(0px)";
+      el.style.filter    = "brightness(0.55) blur(0px)";
     });
+
+    // Velocity tracking for directional snap
+    let lastY  = window.scrollY;
+    let lastT  = Date.now();
+    let vel    = 0; // px/ms, positive = scrolling down
+
+    // Snap state
+    let isSnapping = false;
+    let snapTimer: ReturnType<typeof setTimeout>;
+
+    function snap() {
+      if (isSnapping) return;
+      const y     = window.scrollY;
+      const ratio = y / slideH;
+      if (ratio >= 3 || ratio <= 0) return;
+      const floor    = Math.floor(Math.min(ratio, 2.999));
+      const progress = ratio - floor;
+      if (progress < 0.015 || progress > 0.985) return; // already at boundary
+
+      // Snap forward if moving fast downward, or past 50%
+      const goNext = vel > 0.15 || (vel >= 0 && progress >= 0.5);
+      const target = goNext ? (floor + 1) * slideH : floor * slideH;
+
+      isSnapping = true;
+      window.scrollTo({ top: target, behavior: "smooth" });
+      setTimeout(() => { isSnapping = false; }, 900);
+    }
 
     let ticking = false;
 
     const onScroll = () => {
+      // Track velocity
+      const now = Date.now();
+      const dt  = now - lastT;
+      if (dt > 0) vel = (window.scrollY - lastY) / dt;
+      lastY = window.scrollY;
+      lastT = now;
+
+      // Schedule snap when scroll pauses
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(snap, 120);
+
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
         ticking = false;
-        const y = window.scrollY;
-        const ratio = y / slideH; // continuous 0→3
+        const y     = window.scrollY;
+        const ratio = y / slideH;
 
         if (ratio >= 3) {
           setDone(true);
@@ -108,9 +146,8 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
         }
 
         const idx      = Math.min(Math.floor(ratio), 2);
-        const progress = ratio - idx; // 0→1 within current slide
+        const progress = ratio - idx;
 
-        // Swap text on slide change
         if (idx !== prevIndex.current) {
           prevIndex.current = idx;
           setTitleVisible(false);
@@ -120,20 +157,16 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
           }, 80);
         }
 
-        // Update each image with parallax + blur
         imageRefs.current.forEach((el, i) => {
           if (!el) return;
-          const local = ratio - i; // negative=future, 0-1=active, >1=past
+          const local = ratio - i;
 
-          // Parallax: image drifts down 70px over one full slide
           const translateY = local * 70;
 
-          // Blur: peak at transition boundary (local → 1 or local just above 0)
           const outBlur = local > 0.55 ? ((local - 0.55) / 0.45) * 14 : 0;
           const inBlur  = local < 0 && local > -0.45 ? ((-local) / 0.45) * 8 : 0;
           const blur    = Math.max(outBlur, inBlur);
 
-          // Opacity
           let opacity = 0;
           if (local >= 0 && local <= 1) {
             opacity = local > 0.65 ? 1 - ((local - 0.65) / 0.35) * 0.6 : 1;
@@ -146,7 +179,6 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
           el.style.opacity   = String(Math.max(0, Math.min(1, opacity)));
         });
 
-        // Text blurs out as slide transitions, then sharpens on new slide
         if (textRef.current) {
           const textBlur = progress > 0.55 ? ((progress - 0.55) / 0.45) * 8 : 0;
           textRef.current.style.filter = `blur(${textBlur}px)`;
@@ -156,9 +188,13 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
 
     const t = setTimeout(() => setTitleVisible(true), 300);
     window.addEventListener("scroll", onScroll, { passive: true });
+    // scrollend fires when momentum scrolling fully stops (modern browsers)
+    window.addEventListener("scrollend", snap, { passive: true });
     return () => {
       clearTimeout(t);
+      clearTimeout(snapTimer);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scrollend", snap);
     };
   }, [onDone]);
 
