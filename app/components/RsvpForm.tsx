@@ -280,17 +280,6 @@ export default function RsvpForm() {
                                 <input type="number" min={0} max={17} value={child.age}
                                   onChange={e => updateChild(i, "age", e.target.value)}
                                   placeholder="Alter in Jahren" className={inputCls} />
-                                <AnimatePresence>
-                                  {child.age !== "" && (
-                                    <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                                      className="text-xs mt-1.5 font-medium"
-                                      style={{ color: Number(child.age) < 6 ? "#5a9e6f" : ACCENT }}>
-                                      {Number(child.age) < 6
-                                        ? "✓ Unter 6 Jahre — kostenlos"
-                                        : "Normaler Menüpreis"}
-                                    </motion.p>
-                                  )}
-                                </AnimatePresence>
                               </div>
                               <div>
                                 <Label>Unverträglichkeiten (optional)</Label>
@@ -352,7 +341,6 @@ export default function RsvpForm() {
                         { v: "auto", l: "🚗 Auto" },
                         { v: "ov", l: "🚌 ÖV & Fähre" },
                         { v: "velo", l: "🚲 Velo" },
-                        { v: "fuss", l: "🚶 Zu Fuss" },
                       ]}
                       value={form.arrival}
                       onChange={v => set("arrival", v)}

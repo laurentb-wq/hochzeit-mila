@@ -115,8 +115,8 @@ export default function FullPageLayout() {
       <section ref={el => { sectionRefs.current[0] = el; }} style={sectionStyle}>
         <div className="flex flex-col items-center justify-center text-center px-6 py-10 flex-1">
           <HeroImages />
-          <p className="text-sm mb-4 font-light" style={{ color: MUTED }}>Wir haben ja gesagt</p>
-          <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>DAS WOLLEN WIR FEIERN!</h1>
+          <p className="text-sm mb-4 font-light" style={{ color: MUTED }}>Wir haben ja gesagt und das wollen wir feiern!</p>
+          <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>DAZU BIST DU HERZLICH EINGELADEN!</h1>
           <p className="text-lg font-light mb-8" style={{ color: MUTED }}>14. August 2026 · Zehendermätteli · Bern</p>
           <Countdown />
           <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 w-full">
@@ -124,14 +124,14 @@ export default function FullPageLayout() {
               <p className="text-2xl">📅</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Datum</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>14. August 2026</p>
-              <p className="text-sm flex-1" style={{ color: MUTED }}>Start: 16:00 Uhr</p>
+              <p className="text-sm flex-1" style={{ color: MUTED }}>Pünktlich um 16:00 Uhr</p>
               <button onClick={() => scrollTo(1)} className="text-sm font-semibold hover:opacity-70 transition-opacity mt-auto text-center block w-full" style={{ color: ACCENT, background: "none", border: "none", cursor: "pointer" }}>Zum Programm →</button>
             </Card>
             <Card className="space-y-2 flex flex-col">
               <p className="text-2xl">📍</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Location</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>Zehendermätteli</p>
-              <p className="text-sm flex-1" style={{ color: MUTED }}>Reichenbachstrasse 161, 3004 Bern</p>
+              <p className="text-sm flex-1" style={{ color: MUTED }}>Gib folgende Koordinaten auf Google Maps ein und es kommt gut.</p>
               <a href="https://maps.google.com/?q=Reichenbachstrasse+161+3004+Bern" target="_blank" rel="noopener noreferrer" className="text-sm font-semibold hover:opacity-70 transition-opacity mt-auto text-center block" style={{ color: ACCENT }}>Google Maps →</a>
             </Card>
             <Card className="space-y-2 flex flex-col">
@@ -149,7 +149,7 @@ export default function FullPageLayout() {
       <section ref={el => { sectionRefs.current[1] = el; }} style={sectionStyle}>
         <div className="px-6 py-10 flex-1 overflow-y-auto">
           <div className="max-w-3xl mx-auto">
-            <SectionHeader label="Der grosse Tag" title="Programm" />
+            <SectionHeader label="So läuft das Ganze ab" title="Programm" />
             <div className="relative max-w-xs mx-auto sm:max-w-lg">
               <div className="absolute left-[52px] sm:left-1/2 sm:-translate-x-1/2 top-4 bottom-4 w-px" style={{ background: "#D6DCC8" }} />
               {[
@@ -179,13 +179,13 @@ export default function FullPageLayout() {
             <SectionHeader label="Was anziehen?" title="Dresscode" />
 
             <Card className="text-center space-y-2 mb-3">
-              <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Sommerlich Festlich</p>
+              <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Festlich Sommerlich</p>
               <p className="text-sm leading-relaxed" style={{ color: MUTED }}>Elegant genug für ein Hochzeitsfoto, bequem genug für die Tanzfläche um Mitternacht. Das Brautpaar ist automatisch das Schönste im Raum — du kannst entspannt auftreten. 😉</p>
             </Card>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
               {[
                 { icon: "✅", title: "Go for it", items: ["Elegante Kleidung", "Farbe & Freude", "Leinen", "Sonnenschutz"] },
-                { icon: "🚫", title: "Lieber nicht", items: ["Pyjama", "Gummistiefel"] },
+                { icon: "🚫", title: "Lieber nicht", items: ["Jeans", "Pyjama", "Gummistiefel"] },
                 { icon: "☀️", title: "Wichtig", items: ["August, Aare, Sonne", "Draussen & im Gewächshaus", "Badesachen? Vielleicht 😄"] },
               ].map(({ icon, title, items }) => (
                 <Card key={title} className="h-full">
@@ -247,7 +247,7 @@ export default function FullPageLayout() {
           <div className="max-w-lg mx-auto">
             <SectionHeader label="Bist du dabei?" title="Anmeldung" />
             <p className="text-center text-sm mb-8" style={{ color: MUTED }}>
-              Bitte bis <strong style={{ color: "#1E2614" }}>1. Juli 2026</strong> anmelden — damit die Küche weiss wie viele Teller sie aufwärmen soll.
+              Bitte bis <strong style={{ color: "#1E2614" }}>1. Juli 2026</strong> anmelden.
             </p>
             <div className="bg-white rounded-2xl border border-[#CDD5B0] p-4 sm:p-6">
               <RsvpForm />
