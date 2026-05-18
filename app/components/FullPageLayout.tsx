@@ -121,7 +121,7 @@ export default function FullPageLayout() {
             ))}
           </div>
           <p className="text-sm mb-4 font-light" style={{ color: MUTED }}>Wir haben ja gesagt und das wollen wir feiern!</p>
-          <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>DU BIST HERZLICH EINGELADEN!</h1>
+          <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-3" style={{ color: "#1E2614" }}>WIR FREUEN UNS AUF DICH.</h1>
           <p className="text-lg font-light mb-8" style={{ color: MUTED }}>14. August 2026 · Zehendermätteli · Bern</p>
           <Countdown />
           <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 w-full">
