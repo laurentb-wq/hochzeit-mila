@@ -33,8 +33,8 @@ function useBokehCanvas() {
       x: cx + (Math.random() - 0.5) * W * 0.45,
       y: cy + (Math.random() - 0.5) * H * 0.28,
       r: 70 + Math.random() * 130,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
+      vx: (Math.random() - 0.5) * 0.125,
+      vy: (Math.random() - 0.5) * 0.125,
       baseOpacity: 0.38 + Math.random() * 0.28,
       color: BOKEH_PALETTE[Math.floor(Math.random() * BOKEH_PALETTE.length)],
       phase: Math.random() * Math.PI * 2,
@@ -47,8 +47,8 @@ function useBokehCanvas() {
       for (const o of orbs) {
         o.phase += o.phaseSpeed;
         // Soft spring back to centre so orbs stay near the text
-        o.vx += (cx - o.x) * 0.0004;
-        o.vy += (cy - o.y) * 0.0004;
+        o.vx += (cx - o.x) * 0.0002;
+        o.vy += (cy - o.y) * 0.0002;
         o.x += o.vx;
         o.y += o.vy;
         const op = o.baseOpacity * (0.65 + 0.35 * Math.sin(o.phase));
