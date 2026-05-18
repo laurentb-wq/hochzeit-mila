@@ -1,5 +1,5 @@
-import FullPageLayout from "./components/FullPageLayout";
+import PageWithIntro from "./components/PageWithIntro";
 
 export default function Home() {
-  return <FullPageLayout />;
+  return <PageWithIntro />;
 }
