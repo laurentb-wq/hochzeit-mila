@@ -1,4 +1,6 @@
 import { supabase } from "@/lib/supabase";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 type ChildEntry = { age: string; remarks: string };
 type Rsvp = {
@@ -21,7 +23,7 @@ const stayLabel: Record<string, string> = {
   nach_hauptgang: "Bis nach Hauptgang",
   nach_apero: "Bis nach Apéro",
 };
-const parentsLeaveLabel: Record<string, string> = {
+const parentsLabel: Record<string, string> = {
   ja_alle: "Alle gehen zusammen",
   nein_ein_elternteil: "Ein Elternteil bleibt",
 };
@@ -32,7 +34,20 @@ const arrivalLabel: Record<string, string> = {
   fuss: "🚶 Zu Fuss",
 };
 
+function Row({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex gap-3 py-2 border-b border-[#F0F3E8] last:border-0">
+      <span className="text-xs font-semibold uppercase tracking-wider w-40 flex-shrink-0 pt-0.5" style={{ color: "#8A9870" }}>{label}</span>
+      <span className="text-sm flex-1" style={{ color: "#1E2614" }}>{value || <span style={{ color: "#ccc" }}>—</span>}</span>
+    </div>
+  );
+}
+
 export default async function AdminPage() {
+  const cookieStore = await cookies();
+  const auth = cookieStore.get("admin_auth")?.value;
+  if (auth !== "1") redirect("/admin/login");
+
   let rsvps: Rsvp[] = [];
   let errorMsg = "";
 
@@ -102,82 +117,61 @@ export default async function AdminPage() {
             <p className="text-sm">Noch keine Anmeldungen.</p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {rsvps.map(r => (
-              <div key={r.id} className="bg-white rounded-2xl border border-[#CDD5B0] p-6">
+              <div key={r.id} className="bg-white rounded-2xl border border-[#CDD5B0] overflow-hidden">
+
                 {/* Header */}
-                <div className="flex items-start justify-between gap-4 flex-wrap mb-3">
+                <div className="flex items-center justify-between gap-4 px-6 py-4" style={{ background: r.attending === "yes" ? "#F4F8EE" : "#F8F8F8" }}>
                   <div>
-                    <p className="font-bold" style={{ color: "#1E2614" }}>
+                    <p className="font-bold text-base" style={{ color: "#1E2614" }}>
                       {r.name}{r.adult2_name ? ` & ${r.adult2_name}` : ""}
                     </p>
                     <p className="text-xs mt-0.5" style={{ color: "#8A9870" }}>
-                      {new Date(r.created_at).toLocaleDateString("de-CH", {
+                      Eingegangen: {new Date(r.created_at).toLocaleDateString("de-CH", {
                         day: "2-digit", month: "2-digit", year: "numeric",
                         hour: "2-digit", minute: "2-digit",
                       })}
                     </p>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${r.attending === "yes" ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${r.attending === "yes" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
                     {r.attending === "yes" ? "✓ Dabei" : "✗ Abgesagt"}
                   </span>
                 </div>
 
-                {r.attending === "yes" && (
-                  <div className="space-y-2 border-t border-[#EBF0DC] pt-3 text-sm" style={{ color: "#74825A" }}>
+                {/* Details */}
+                <div className="px-6 py-4">
+                  <Row label="Name" value={r.name} />
+                  {r.adult2_name && <Row label="Begleitperson" value={r.adult2_name} />}
+                  <Row label="Teilnahme" value={r.attending === "yes" ? "✓ Dabei" : "✗ Abgesagt"} />
 
-                    {r.adult_remarks && (
-                      <div className="flex gap-2">
-                        <span>🥗</span>
-                        <span><strong style={{ color: "#1E2614" }}>Unverträglichkeiten:</strong> {r.adult_remarks}</span>
-                      </div>
-                    )}
-
+                  {r.attending === "yes" && (<>
+                    <Row label="Unverträglichkeiten" value={r.adult_remarks} />
+                    <Row label="Anreise" value={r.arrival ? arrivalLabel[r.arrival] : null} />
+                    <Row label="Kinder" value={
+                      (r.children_count ?? 0) > 0
+                        ? `${r.children_count} Kind${r.children_count === 1 ? "" : "er"}`
+                        : "Keine"
+                    } />
+                    {(r.children ?? []).map((c, i) => (
+                      <Row key={i} label={`Kind ${i + 1}`} value={
+                        `${c.age} Jahre${Number(c.age) < 6 ? " (gratis)" : ""}${c.remarks ? ` — ${c.remarks}` : ""}`
+                      } />
+                    ))}
                     {(r.children_count ?? 0) > 0 && (
-                      <div className="space-y-1.5">
-                        <div className="flex gap-2 items-center">
-                          <span>👶</span>
-                          <span className="font-semibold" style={{ color: "#1E2614" }}>
-                            {r.children_count} {r.children_count === 1 ? "Kind" : "Kinder"}
-                          </span>
-                          {r.kids_stay && (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-[#EBF0DC]" style={{ color: "#5C6B3A" }}>
-                              {stayLabel[r.kids_stay] ?? r.kids_stay}
-                            </span>
-                          )}
-                          {r.kids_parents_leave && (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-[#FFF8E7]" style={{ color: "#9a7a30" }}>
-                              {parentsLeaveLabel[r.kids_parents_leave] ?? r.kids_parents_leave}
-                            </span>
-                          )}
-                        </div>
-                        {(r.children ?? []).map((c, i) => (
-                          <div key={i} className="ml-6 flex flex-wrap gap-2 items-center text-xs">
-                            <span style={{ color: "#1E2614" }}>Kind {i + 1}: {c.age} Jahre</span>
-                            {Number(c.age) < 6 && (
-                              <span className="px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-medium">gratis</span>
-                            )}
-                            {c.remarks && <span style={{ color: "#74825A" }}>— {c.remarks}</span>}
-                          </div>
-                        ))}
-                      </div>
+                      <Row label="Kinder bleiben" value={r.kids_stay ? stayLabel[r.kids_stay] : null} />
                     )}
-
-                    {r.arrival && (
-                      <div className="flex gap-2">
-                        <span>🗺️</span>
-                        <span>{arrivalLabel[r.arrival] ?? r.arrival}</span>
-                      </div>
+                    {r.kids_parents_leave && (
+                      <Row label="Eltern gehen" value={parentsLabel[r.kids_parents_leave]} />
                     )}
-
                     {r.love_letter && (
-                      <div className="flex gap-2 items-start mt-1 pt-2 border-t border-[#EBF0DC]">
-                        <span>💌</span>
-                        <span className="italic text-xs">&ldquo;{r.love_letter}&rdquo;</span>
+                      <div className="mt-3 pt-3 border-t border-[#F0F3E8]">
+                        <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#8A9870" }}>💌 Liebesbrief</p>
+                        <p className="text-sm italic" style={{ color: "#5C6B3A" }}>&ldquo;{r.love_letter}&rdquo;</p>
                       </div>
                     )}
-                  </div>
-                )}
+                  </>)}
+                </div>
               </div>
             ))}
           </div>
