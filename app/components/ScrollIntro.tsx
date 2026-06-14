@@ -194,26 +194,19 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
       />
 
       {/* Text + progress bar */}
-      <div style={{
-        position: "absolute", inset: 0,
-        display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center",
-        zIndex: 2,
-        padding: "0 24px",
-        textAlign: "center",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-      }}>
+      <div className="intro-text-wrap">
         <h1
           key={slideIndex}
           style={{
-            fontSize: "clamp(28px, 6vw, 64px)",
             fontWeight: 700,
             letterSpacing: "0.06em",
             lineHeight: 1.15,
             color: "white",
             textShadow: "0 2px 24px rgba(0,0,0,0.4)",
             animation: "fadeInUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
+          className="intro-title"
         >
           {SLIDES[slideIndex].title}
         </h1>
@@ -221,7 +214,7 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
         {/* Progress bar */}
         <div style={{
           marginTop: 28,
-          width: "clamp(120px, 30vw, 220px)",
+          width: "clamp(100px, 60%, 180px)",
           height: 2,
           background: "rgba(255,255,255,0.25)",
           borderRadius: 1,
@@ -276,9 +269,22 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
         }
         .intro-portrait-wrap { display: none; position: absolute; inset: 0; }
         .intro-fullscreen-wrap { display: block; position: absolute; inset: 0; }
+        .intro-text-wrap {
+          position: absolute; inset: 0; z-index: 2;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          text-align: center; padding: 0 24px;
+        }
+        .intro-title { font-size: clamp(24px, 6vw, 52px); }
         @media (min-width: 640px) {
           .intro-portrait-wrap { display: block; }
           .intro-fullscreen-wrap { display: none; }
+          .intro-text-wrap {
+            width: calc(82vh * 4 / 5);
+            left: 50%; transform: translateX(-50%);
+            right: auto; padding: 0 32px;
+          }
+          .intro-title { font-size: clamp(18px, 2.8vw, 36px); }
         }
       `}</style>
     </div>
