@@ -216,7 +216,6 @@ export default function FullPageLayout() {
               {[
                 { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bis Bremgarten Schloss → 400m Spaziergang zur Fähre", note: "Empfehlung — ÖV = entspannte Feier 🍾" },
                 { icon: "🚗", title: "Auto", from: "Irgendwo → Bern", note: "Warnung oben beachten" },
-                { icon: "🚶", title: "Zu Fuss", from: "Ab Tiefenau (RBS S9)", note: "Kurze Strecke entlang der Aare" },
                 { icon: "🚲", title: "Publibike", from: "Eigene Station vor Ort", note: "Direkt beim Zehendermätteli" },
                 { icon: "🚴", title: "Eigenes Velo", from: "Velowege entlang der Aare", note: "Abstellplätze vor Ort" },
               ].map(({ icon, title, from, note }) => (
