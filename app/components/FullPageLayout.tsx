@@ -98,9 +98,11 @@ export default function FullPageLayout() {
               <button
                 onClick={() => scrollTo(5)}
                 style={{
-                  background: ACCENT, color: "white", border: "none", borderRadius: 999,
+                  background: active === 5 ? "white" : ACCENT,
+                  color: active === 5 ? ACCENT : "white",
+                  border: "none", borderRadius: 999,
                   padding: "5px 16px", fontSize: 11, fontWeight: 700, letterSpacing: "0.04em",
-                  cursor: "pointer",
+                  cursor: "pointer", transition: "all 0.3s ease",
                 }}
               >
                 Anmeldung
@@ -149,9 +151,11 @@ export default function FullPageLayout() {
               onClick={() => scrollTo(5)}
               style={{
                 marginLeft: "auto",
-                background: ACCENT, color: "white", border: "none", borderRadius: 999,
+                background: active === 5 ? "white" : ACCENT,
+                color: active === 5 ? ACCENT : "white",
+                border: "none", borderRadius: 999,
                 padding: "7px 20px", fontSize: 12, fontWeight: 700, letterSpacing: "0.04em",
-                cursor: "pointer", whiteSpace: "nowrap", transition: "opacity 0.2s",
+                cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.3s ease",
               }}
               onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
               onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
