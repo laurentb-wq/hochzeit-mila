@@ -134,13 +134,11 @@ export default function FullPageLayout() {
               <p className="text-2xl">📍</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Location</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>Zehendermätteli</p>
-              <p className="text-sm flex-1" style={{ color: MUTED }}>Gib folgende Koordinaten auf Google Maps ein und es kommt gut.</p>
             </Card>
             <Card className="space-y-2 flex flex-col">
               <p className="text-2xl">🗓️</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Anmeldung</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>Bis 1. Juli 2026</p>
-              <p className="text-sm flex-1" style={{ color: MUTED }}>Damit wir gut planen können.</p>
             </Card>
           </div>
         </div>
