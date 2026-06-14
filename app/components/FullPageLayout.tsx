@@ -28,10 +28,11 @@ const NAV_LINKS = [
   { label: "Programm", idx: 1 },
   { label: "Dresscode", idx: 2 },
   { label: "Anreise", idx: 3 },
-  { label: "Anmeldung", idx: 4 },
+  { label: "Sonstiges", idx: 4 },
+  { label: "Anmeldung", idx: 5 },
 ];
 
-const SECTION_COUNT = 5;
+const SECTION_COUNT = 6;
 const NAV_H = 64;
 
 export default function FullPageLayout() {
@@ -89,7 +90,7 @@ export default function FullPageLayout() {
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614", height: NAV_H }}>
         <div className="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
           <span />
-          <div className="flex gap-3 sm:gap-6 text-sm sm:text-sm">
+          <div className="flex gap-2 sm:gap-6 text-xs sm:text-sm">
             {NAV_LINKS.map(({ label, idx }) => {
               const isActive = active === idx;
               return (
@@ -231,8 +232,41 @@ export default function FullPageLayout() {
         </div>
       </section>
 
-      {/* ── ANMELDUNG + FOOTER ── */}
+      {/* ── SONSTIGES ── */}
       <section ref={el => { sectionRefs.current[4] = el; }} style={sectionStyle}>
+        <div className="px-6 py-10 flex-1 overflow-y-auto">
+          <div className="max-w-3xl mx-auto">
+            <SectionHeader label="Noch ein paar Dinge" title="Sonstiges" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+              <Card className="space-y-3">
+                <p className="text-2xl">🎁</p>
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Geschenke</p>
+                <p className="text-sm leading-relaxed" style={{ color: MUTED }}>
+                  Unser Haushalt ist komplett. Wir freuen uns über einen Zustupf in unsere Familienkasse.
+                </p>
+              </Card>
+
+              <Card className="space-y-3">
+                <p className="text-2xl">💬</p>
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Bei Fragen</p>
+                <p className="text-sm leading-relaxed mb-3" style={{ color: MUTED }}>
+                  Meldet euch direkt bei uns. Falls ihr uns nicht erreicht, wendet euch an unsere Trauzeugen:
+                </p>
+                <div className="space-y-2 text-sm" style={{ color: MUTED }}>
+                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Julia</span><span>+41 79 000 00 01</span></div>
+                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Nirojan</span><span>+41 79 000 00 02</span></div>
+                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Max</span><span>+41 79 000 00 03</span></div>
+                </div>
+              </Card>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ANMELDUNG + FOOTER ── */}
+      <section ref={el => { sectionRefs.current[5] = el; }} style={sectionStyle}>
         <div className="px-6 py-10 flex-1 overflow-y-auto">
           <div className="max-w-lg mx-auto">
             <SectionHeader label="Bist du dabei?" title="Anmeldung" />
