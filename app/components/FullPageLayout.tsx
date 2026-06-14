@@ -212,13 +212,6 @@ export default function FullPageLayout() {
         <div className="px-6 py-10 flex-1 overflow-y-auto">
           <div className="max-w-3xl mx-auto">
             <SectionHeader label="Wie komme ich hin?" title="Anreise" />
-            <div className="mb-4 p-4 rounded-2xl border flex gap-3 items-start" style={{ background: "#FFF8E7", borderColor: "#F0D080" }}>
-              <span className="text-lg flex-shrink-0">⚠️</span>
-              <div>
-                <p className="font-semibold text-sm text-amber-900 mb-1">Das Navi lügt.</p>
-                <p className="text-sm text-amber-700 leading-relaxed">GPS und Google Maps führen dich auf die <strong>falsche Seite der Aare</strong>. Ignoriere alle digitalen Ratschläge — folge den Schildern vor Ort.</p>
-              </div>
-            </div>
             <div className="space-y-3">
               {[
                 { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bis Bremgarten Schloss → 400m Spaziergang zur Fähre", note: "Empfehlung — ÖV = entspannte Feier 🍾" },
