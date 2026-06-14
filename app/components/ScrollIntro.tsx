@@ -99,32 +99,87 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 100, overflow: "hidden" }}>
 
-      {/* Background images — crossfade + Ken Burns zoom */}
+      {/* Blurred backdrop (always full screen) */}
       {SLIDES.map((s, i) => (
         <div
-          key={s.src}
+          key={`bg-${s.src}`}
           style={{
-            position: "absolute",
-            inset: 0,
-            overflow: "hidden",
+            position: "absolute", inset: 0, overflow: "hidden",
             opacity: i === slideIndex ? 1 : 0,
             transition: "opacity 0.8s ease",
           }}
         >
           <div
-            key={i === slideIndex ? `active-${slideIndex}` : `idle-${i}`}
+            key={i === slideIndex ? `bg-active-${slideIndex}` : `bg-idle-${i}`}
             style={{
-              position: "absolute",
-              inset: "-6%",
+              position: "absolute", inset: "-6%",
               backgroundImage: `url(${s.src})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              filter: "brightness(0.55)",
+              backgroundSize: "cover", backgroundPosition: "center",
+              filter: "brightness(0.3) blur(24px)",
               animation: i === slideIndex ? `kenBurns ${DURATION + 800}ms linear forwards` : "none",
             }}
           />
         </div>
       ))}
+
+      {/* Desktop: centered 4:5 portrait */}
+      <div className="intro-portrait-wrap">
+        {SLIDES.map((s, i) => (
+          <div
+            key={`portrait-${s.src}`}
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              opacity: i === slideIndex ? 1 : 0,
+              transition: "opacity 0.8s ease",
+            }}
+          >
+            <div style={{
+              height: "82vh", aspectRatio: "4/5",
+              overflow: "hidden", borderRadius: 16,
+              position: "relative",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.5)",
+            }}>
+              <div
+                key={i === slideIndex ? `portrait-active-${slideIndex}` : `portrait-idle-${i}`}
+                style={{
+                  position: "absolute", inset: "-6%",
+                  backgroundImage: `url(${s.src})`,
+                  backgroundSize: "cover", backgroundPosition: "center",
+                  filter: "brightness(0.65)",
+                  animation: i === slideIndex ? `kenBurns ${DURATION + 800}ms linear forwards` : "none",
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile: full screen image */}
+      <div className="intro-fullscreen-wrap">
+        {SLIDES.map((s, i) => (
+          <div
+            key={`full-${s.src}`}
+            style={{
+              position: "absolute", inset: 0, overflow: "hidden",
+              opacity: i === slideIndex ? 1 : 0,
+              transition: "opacity 0.8s ease",
+            }}
+          >
+            <div
+              key={i === slideIndex ? `full-active-${slideIndex}` : `full-idle-${i}`}
+              style={{
+                position: "absolute", inset: "-6%",
+                backgroundImage: `url(${s.src})`,
+                backgroundSize: "cover", backgroundPosition: "center",
+                filter: "brightness(0.55)",
+                animation: i === slideIndex ? `kenBurns ${DURATION + 800}ms linear forwards` : "none",
+              }}
+            />
+          </div>
+        ))}
+      </div>
 
       {/* Bokeh */}
       <canvas
@@ -218,6 +273,12 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(18px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        .intro-portrait-wrap { display: none; position: absolute; inset: 0; }
+        .intro-fullscreen-wrap { display: block; position: absolute; inset: 0; }
+        @media (min-width: 640px) {
+          .intro-portrait-wrap { display: block; }
+          .intro-fullscreen-wrap { display: none; }
         }
       `}</style>
     </div>
