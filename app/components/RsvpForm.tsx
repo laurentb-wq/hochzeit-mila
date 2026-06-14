@@ -211,7 +211,7 @@ export default function RsvpForm() {
               <div>
                 <Label>Kommt eine Begleitperson mit?</Label>
                 <Pills
-                  options={[{ v: "yes", l: "Ja" }, { v: "no", l: "Nein, ich komme alleine" }]}
+                  options={[{ v: "yes", l: "Ja, ich komme mit meiner Partnerin / meinem Partner" }, { v: "no", l: "Nein, ich komme alleine" }]}
                   value={form.hasCompanion}
                   onChange={v => set("hasCompanion", v)}
                 />
