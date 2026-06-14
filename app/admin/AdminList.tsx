@@ -14,24 +14,36 @@ export type Rsvp = {
   children: ChildEntry[] | null;
   kids_stay: string | null;
   kids_parents_leave: string | null;
-  arrival: string | null;
-  love_letter: string | null;
-};
-
-const stayLabel: Record<string, string> = {
-  nach_dessert: "Bis nach Dessert",
-  nach_hauptgang: "Bis nach Hauptgang",
-  nach_apero: "Bis nach Apéro",
-};
-const parentsLabel: Record<string, string> = {
-  ja_alle: "Alle gehen zusammen",
-  nein_ein_elternteil: "Ein Elternteil bleibt",
-};
-const arrivalLabel: Record<string, string> = {
-  auto: "🚗 Auto", ov: "🚌 ÖV & Fähre", velo: "🚲 Velo", fuss: "🚶 Zu Fuss",
 };
 
 const inputCls = "w-full border border-[#CDD5B0] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#5C6B3A]";
+
+function toCsv(rsvps: Rsvp[]): string {
+  const cols = ["Name", "Begleitperson", "Teilnahme", "Unverträglichkeiten", "Kinder", "Kinder Alter", "Kinder bis Dessert", "Plan Kinder", "Datum"];
+  const rows = rsvps.map(r => [
+    r.name,
+    r.adult2_name ?? "",
+    r.attending === "yes" ? "Ja" : "Nein",
+    r.adult_remarks ?? "",
+    String(r.children_count ?? 0),
+    (r.children ?? []).map(c => `${c.age}J${c.remarks ? ` (${c.remarks})` : ""}`).join("; "),
+    r.kids_stay === "yes" ? "Ja" : r.kids_stay === "no" ? "Nein" : "",
+    r.kids_parents_leave ?? "",
+    new Date(r.created_at).toLocaleDateString("de-CH"),
+  ]);
+  return [cols, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+}
+
+function downloadCsv(rsvps: Rsvp[]) {
+  const csv = toCsv(rsvps);
+  const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `anmeldungen-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 function EditModal({ rsvp, onClose, onSave }: { rsvp: Rsvp; onClose: () => void; onSave: (updated: Partial<Rsvp>) => void }) {
   const [form, setForm] = useState({
@@ -39,8 +51,6 @@ function EditModal({ rsvp, onClose, onSave }: { rsvp: Rsvp; onClose: () => void;
     adult2_name: rsvp.adult2_name ?? "",
     attending: rsvp.attending ?? "yes",
     adult_remarks: rsvp.adult_remarks ?? "",
-    arrival: rsvp.arrival ?? "",
-    love_letter: rsvp.love_letter ?? "",
   });
   const [saving, setSaving] = useState(false);
 
@@ -54,11 +64,9 @@ function EditModal({ rsvp, onClose, onSave }: { rsvp: Rsvp; onClose: () => void;
         adult2_name: form.adult2_name || null,
         attending: form.attending,
         adult_remarks: form.adult_remarks || null,
-        arrival: form.arrival || null,
-        love_letter: form.love_letter || null,
       }),
     });
-    onSave({ ...form, adult2_name: form.adult2_name || null, adult_remarks: form.adult_remarks || null, arrival: form.arrival || null, love_letter: form.love_letter || null });
+    onSave({ ...form, adult2_name: form.adult2_name || null, adult_remarks: form.adult_remarks || null });
     setSaving(false);
   }
 
@@ -66,7 +74,6 @@ function EditModal({ rsvp, onClose, onSave }: { rsvp: Rsvp; onClose: () => void;
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.4)" }} onClick={onClose}>
       <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl space-y-4" onClick={e => e.stopPropagation()}>
         <h2 className="font-bold text-base" style={{ color: "#1E2614" }}>Eintrag bearbeiten</h2>
-
         <div className="space-y-3">
           <div>
             <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#8A9870" }}>Name</label>
@@ -87,22 +94,7 @@ function EditModal({ rsvp, onClose, onSave }: { rsvp: Rsvp; onClose: () => void;
             <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#8A9870" }}>Unverträglichkeiten</label>
             <input className={inputCls} value={form.adult_remarks} onChange={e => setForm(p => ({ ...p, adult_remarks: e.target.value }))} />
           </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#8A9870" }}>Anreise</label>
-            <select className={inputCls} value={form.arrival} onChange={e => setForm(p => ({ ...p, arrival: e.target.value }))}>
-              <option value="">—</option>
-              <option value="auto">🚗 Auto</option>
-              <option value="ov">🚌 ÖV & Fähre</option>
-              <option value="velo">🚲 Velo</option>
-              <option value="fuss">🚶 Zu Fuss</option>
-            </select>
-          </div>
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#8A9870" }}>Liebesbrief</label>
-            <textarea className={inputCls} rows={3} value={form.love_letter} onChange={e => setForm(p => ({ ...p, love_letter: e.target.value }))} />
-          </div>
         </div>
-
         <div className="flex gap-3 pt-2">
           <button onClick={onClose} className="flex-1 py-2 rounded-xl border border-[#CDD5B0] text-sm font-semibold" style={{ color: "#74825A" }}>Abbrechen</button>
           <button onClick={save} disabled={saving} className="flex-1 py-2 rounded-xl text-sm font-semibold text-white" style={{ background: "#5C6B3A" }}>
@@ -144,21 +136,15 @@ function RsvpRow({ rsvp: initial }: { rsvp: Rsvp }) {
     <>
       {editing && <EditModal rsvp={rsvp} onClose={() => setEditing(false)} onSave={handleSave} />}
 
-      {/* Compact row */}
       <div className="bg-white rounded-xl border border-[#CDD5B0] overflow-hidden">
         <div className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-[#FAFBF7] transition-colors"
           onClick={() => setOpen(o => !o)}>
-
           <span className={`w-2 h-2 rounded-full flex-shrink-0 ${rsvp.attending === "yes" ? "bg-green-400" : "bg-gray-300"}`} />
-
           <span className="font-semibold text-sm flex-1" style={{ color: "#1E2614" }}>{names}</span>
-
           <div className="flex items-center gap-2 flex-shrink-0">
             {rsvp.attending === "yes" && (<>
-              {rsvp.arrival && <span className="text-xs hidden sm:inline" style={{ color: "#8A9870" }}>{arrivalLabel[rsvp.arrival]}</span>}
               {kidsCount > 0 && <span className="text-xs px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">👶 {kidsCount}</span>}
               {rsvp.adult_remarks && <span className="text-xs px-2 py-0.5 rounded-full bg-orange-50 text-orange-500">🥗</span>}
-              {rsvp.love_letter && <span className="text-xs">💌</span>}
             </>)}
             <span className="text-xs" style={{ color: "#8A9870" }}>
               {new Date(rsvp.created_at).toLocaleDateString("de-CH", { day: "2-digit", month: "2-digit" })}
@@ -167,30 +153,28 @@ function RsvpRow({ rsvp: initial }: { rsvp: Rsvp }) {
           </div>
         </div>
 
-        {/* Expanded detail */}
         {open && (
           <div className="px-4 pb-4 border-t border-[#F0F3E8] pt-3 space-y-2">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
               <Detail label="Teilnahme" value={rsvp.attending === "yes" ? "✓ Dabei" : "✗ Abgesagt"} />
               {rsvp.adult2_name && <Detail label="Begleitperson" value={rsvp.adult2_name} />}
-              {rsvp.arrival && <Detail label="Anreise" value={arrivalLabel[rsvp.arrival]} />}
               {rsvp.adult_remarks && <Detail label="Unverträglichkeiten" value={rsvp.adult_remarks} />}
               {kidsCount > 0 && <Detail label="Kinder" value={`${kidsCount} Kind${kidsCount > 1 ? "er" : ""}`} />}
-              {rsvp.kids_stay && <Detail label="Kinder bleiben" value={stayLabel[rsvp.kids_stay]} />}
-              {rsvp.kids_parents_leave && <Detail label="Eltern gehen" value={parentsLabel[rsvp.kids_parents_leave]} />}
+              {rsvp.kids_stay && (
+                <Detail label="Bis Dessert" value={rsvp.kids_stay === "yes" ? "Ja ✓" : "Nein"} />
+              )}
             </div>
             {(rsvp.children ?? []).map((c, i) => (
               <div key={i} className="text-xs ml-1" style={{ color: "#5C6B3A" }}>
-                Kind {i + 1}: {c.age} Jahre{Number(c.age) < 6 ? " (gratis)" : ""}{c.remarks ? ` — ${c.remarks}` : ""}
+                Kind {i + 1}: {c.age} Jahre{c.remarks ? ` — ${c.remarks}` : ""}
               </div>
             ))}
-            {rsvp.love_letter && (
+            {rsvp.kids_stay === "no" && rsvp.kids_parents_leave && (
               <div className="mt-2 pt-2 border-t border-[#F0F3E8]">
-                <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#8A9870" }}>💌 Liebesbrief</p>
-                <p className="text-sm italic" style={{ color: "#5C6B3A" }}>&ldquo;{rsvp.love_letter}&rdquo;</p>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: "#8A9870" }}>Plan</p>
+                <p className="text-sm" style={{ color: "#5C6B3A" }}>{rsvp.kids_parents_leave}</p>
               </div>
             )}
-
             <div className="flex gap-2 pt-2">
               <button onClick={() => setEditing(true)}
                 className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-[#CDD5B0] hover:bg-[#F4F8EE] transition"
@@ -219,6 +203,15 @@ function Detail({ label, value }: { label: string; value: string }) {
 export default function AdminList({ rsvps }: { rsvps: Rsvp[] }) {
   return (
     <div className="space-y-2">
+      <div className="flex justify-end mb-2">
+        <button
+          onClick={() => downloadCsv(rsvps)}
+          className="px-4 py-2 rounded-xl text-xs font-semibold border border-[#CDD5B0] hover:bg-white transition"
+          style={{ color: "#5C6B3A" }}
+        >
+          ⬇ CSV exportieren
+        </button>
+      </div>
       {rsvps.map(r => <RsvpRow key={r.id} rsvp={r} />)}
     </div>
   );
