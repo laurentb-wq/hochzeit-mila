@@ -277,6 +277,7 @@ export default function FullPageLayout() {
                 { icon: "🚗", title: "Auto", from: "Achtung: Das Navi führt auf die falsche Seite der Aare. Anfahrt via Reichenbachstrasse bis ans Ende im Wald. Es hat Parkplätze vor Ort, es kann aber sein, dass diese bereits besetzt sind.", recommended: false },
                 { icon: "🚲", title: "Publibike", from: "Eigene Station direkt beim Zehendermätteli", recommended: false },
                 { icon: "🚴", title: "Eigenes Velo", from: "Via Reichenbachstrasse durch den Wald bis direkt zum Zehendermätteli", recommended: false },
+                { icon: "🚀", title: "Jetpack", from: "Definitiv die schnellste und einfachste Variante.", recommended: false },
               ].map(({ icon, title, from, recommended }) => (
                 <Card key={title} className="flex items-center gap-4">
                   <span className="text-xl flex-shrink-0">{icon}</span>
