@@ -68,269 +68,151 @@ const SLIDES = [
   { src: "/Mibilabo1.jpg",  title: "BIST DU DABEI?" },
 ];
 
+const DURATION = 2000;
+
 export default function ScrollIntro({ onDone }: { onDone: () => void }) {
   const [slideIndex, setSlideIndex] = useState(0);
-  const [titleVisible, setTitleVisible] = useState(false);
   const [done, setDone] = useState(false);
-  const prevIndex = useRef(0);
-
-  // Refs for direct DOM style updates (no React re-render on every frame)
-  const imageRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
-  const textRef   = useRef<HTMLDivElement>(null);
-  const bokehRef  = useBokehCanvas();
+  const bokehRef = useBokehCanvas();
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
 
   useEffect(() => {
-    const slideH = window.innerHeight;
-
-    // Apply initial state immediately so slide 0 is visible
-    imageRefs.current.forEach((el, i) => {
-      if (!el) return;
-      el.style.opacity   = i === 0 ? "1" : "0";
-      el.style.transform = "translateY(0px)";
-      el.style.filter    = "brightness(0.55) blur(0px)";
-    });
-
-    // --- Parallax: driven by scroll position via RAF ---
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        const y     = window.scrollY;
-        const ratio = y / slideH;
-
-        if (ratio >= 3) {
-          setDone(true);
-          window.scrollTo({ top: 0, behavior: "instant" });
-          onDone();
-          return;
-        }
-
-        const idx      = Math.min(Math.floor(ratio), 2);
-        const progress = ratio - idx;
-
-        if (idx !== prevIndex.current) {
-          prevIndex.current = idx;
-          setTitleVisible(false);
-          setTimeout(() => {
-            setSlideIndex(idx);
-            setTitleVisible(true);
-          }, 80);
-        }
-
-        imageRefs.current.forEach((el, i) => {
-          if (!el) return;
-          const local   = ratio - i;
-          const outBlur = local > 0.55 ? ((local - 0.55) / 0.45) * 14 : 0;
-          const inBlur  = local < 0 && local > -0.45 ? ((-local) / 0.45) * 8 : 0;
-          let opacity   = 0;
-          if (local >= 0 && local <= 1) {
-            opacity = local > 0.65 ? 1 - ((local - 0.65) / 0.35) * 0.6 : 1;
-          } else if (local > -0.45 && local < 0) {
-            opacity = (local + 0.45) / 0.45;
-          }
-          el.style.transform = `translateY(${local * 70}px)`;
-          el.style.filter    = `brightness(0.55) blur(${Math.max(outBlur, inBlur)}px)`;
-          el.style.opacity   = String(Math.max(0, Math.min(1, opacity)));
-        });
-
-        if (textRef.current) {
-          const textBlur = progress > 0.55 ? ((progress - 0.55) / 0.45) * 8 : 0;
-          textRef.current.style.filter = `blur(${textBlur}px)`;
-        }
-      });
-    };
-
-    // --- Wheel: exactly one slide per gesture ---
-    let wheelLocked = false;
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      if (wheelLocked) return;
-      const current   = Math.round(window.scrollY / slideH);
-      const direction = e.deltaY > 0 ? 1 : -1;
-      const target    = Math.max(0, Math.min(3, current + direction));
-      wheelLocked = true;
-      window.scrollTo({ top: target * slideH, behavior: "smooth" });
-      setTimeout(() => { wheelLocked = false; }, 1100);
-    };
-
-    // --- Touch: clamp to ±1 slide, snap on release ---
-    let touchStartY       = 0;
-    let touchStartScrollY = 0;
-    let touchStartSlide   = 0;
-
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY       = e.touches[0].clientY;
-      touchStartScrollY = window.scrollY;
-      touchStartSlide   = Math.round(window.scrollY / slideH);
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      const deltaY = touchStartY - e.touches[0].clientY;
-      const minY   = touchStartSlide * slideH;
-      const maxY   = (touchStartSlide + 1) * slideH;
-      window.scrollTo({ top: Math.max(minY, Math.min(maxY, touchStartScrollY + deltaY)), behavior: "instant" });
-    };
-
-    const onTouchEnd = (e: TouchEvent) => {
-      const deltaY    = touchStartY - e.changedTouches[0].clientY;
-      const direction = deltaY > 40 ? 1 : deltaY < -40 ? -1 : 0;
-      const target    = Math.max(0, Math.min(3, touchStartSlide + direction));
-      window.scrollTo({ top: target * slideH, behavior: "smooth" });
-    };
-
-    const t = setTimeout(() => setTitleVisible(true), 300);
-    window.addEventListener("scroll",     onScroll,     { passive: true });
-    window.addEventListener("wheel",      onWheel,      { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove",  onTouchMove,  { passive: false });
-    window.addEventListener("touchend",   onTouchEnd,   { passive: true });
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener("scroll",     onScroll);
-      window.removeEventListener("wheel",      onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove",  onTouchMove);
-      window.removeEventListener("touchend",   onTouchEnd);
-    };
-  }, [onDone]);
+    const timer = setTimeout(() => {
+      if (slideIndex < SLIDES.length - 1) {
+        setSlideIndex(i => i + 1);
+      } else {
+        setDone(true);
+        onDoneRef.current();
+      }
+    }, DURATION);
+    return () => clearTimeout(timer);
+  }, [slideIndex]);
 
   function skip() {
     setDone(true);
-    window.scrollTo({ top: 0, behavior: "instant" });
-    onDone();
+    onDoneRef.current();
   }
 
   if (done) return null;
 
-  const slide = SLIDES[slideIndex];
-
   return (
-    <>
-      <div style={{ height: "400vh" }}>
-        <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 100, overflow: "hidden" }}>
 
-          {/* Background images — extra height so parallax drift doesn't show edges */}
-          {SLIDES.map((s, i) => (
-            <div
-              key={s.src}
-              ref={el => { imageRefs.current[i] = el; }}
-              style={{
-                position: "absolute",
-                top: "-12%", left: 0, right: 0, bottom: "-12%",
-                backgroundImage: `url(${s.src})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                willChange: "transform, filter, opacity",
-              }}
-            />
-          ))}
+      {/* Background images — crossfade */}
+      {SLIDES.map((s, i) => (
+        <div
+          key={s.src}
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `url(${s.src})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: i === slideIndex ? 1 : 0,
+            transition: "opacity 0.7s ease",
+            filter: "brightness(0.55)",
+          }}
+        />
+      ))}
 
-          {/* Bokeh colour orbs */}
-          <canvas
-            ref={bokehRef}
+      {/* Bokeh */}
+      <canvas
+        ref={bokehRef}
+        style={{
+          position: "absolute", inset: 0,
+          width: "100%", height: "100%",
+          pointerEvents: "none",
+          zIndex: 1,
+          mixBlendMode: "screen",
+        }}
+      />
+
+      {/* Text + progress bar */}
+      <div style={{
+        position: "absolute", inset: 0,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        zIndex: 2,
+        padding: "0 24px",
+        textAlign: "center",
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
+      }}>
+        <h1 style={{
+          fontSize: "clamp(28px, 6vw, 64px)",
+          fontWeight: 700,
+          letterSpacing: "0.06em",
+          lineHeight: 1.15,
+          color: "white",
+          textShadow: "0 2px 24px rgba(0,0,0,0.4)",
+        }}>
+          {SLIDES[slideIndex].title}
+        </h1>
+
+        {/* Progress bar */}
+        <div style={{
+          marginTop: 28,
+          width: "clamp(120px, 30vw, 220px)",
+          height: 2,
+          background: "rgba(255,255,255,0.25)",
+          borderRadius: 1,
+          overflow: "hidden",
+        }}>
+          <div
+            key={slideIndex}
             style={{
-              position: "absolute", inset: 0,
-              width: "100%", height: "100%",
-              pointerEvents: "none",
-              zIndex: 1,
-              mixBlendMode: "screen",
+              height: "100%",
+              background: "white",
+              borderRadius: 1,
+              animation: `introProgress ${DURATION}ms linear forwards`,
             }}
           />
-
-          {/* Text — moves up with scroll via ref */}
-          <div
-            ref={textRef}
-            style={{
-              position: "absolute", inset: 0,
-              display: "flex", flexDirection: "column",
-              alignItems: "center", justifyContent: "center",
-              textAlign: "center", padding: "0 24px",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              color: "white",
-              zIndex: 2,
-              willChange: "filter",
-            }}
-          >
-            <h1 style={{
-              fontSize: "clamp(28px, 6vw, 64px)",
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              lineHeight: 1.15,
-              opacity: titleVisible ? 1 : 0,
-              transform: titleVisible ? "translateY(0)" : "translateY(20px)",
-              transition: "opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1)",
-              textShadow: "0 2px 24px rgba(0,0,0,0.4)",
-            }}>
-              {slide.title}
-            </h1>
-          </div>
-
-          {/* Scroll hint — slide 0 only */}
-          {slideIndex === 0 && (
-            <div style={{
-              position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)",
-              display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-              color: "rgba(255,255,255,0.7)",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontSize: 12, letterSpacing: "0.12em",
-              opacity: titleVisible ? 1 : 0,
-              transition: "opacity 1s ease 0.5s",
-              zIndex: 3,
-            }}>
-              <span style={{ textTransform: "uppercase" }}>Scroll</span>
-              <span style={{ animation: "bounceDown 1.6s ease infinite" }}>↓</span>
-            </div>
-          )}
-
-          {/* Skip button */}
-          <button
-            onClick={skip}
-            style={{
-              position: "absolute", top: 20, right: 20,
-              background: "rgba(255,255,255,0.12)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid rgba(255,255,255,0.3)",
-              borderRadius: 999,
-              color: "white",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontSize: 13,
-              padding: "8px 18px",
-              cursor: "pointer",
-              letterSpacing: "0.05em",
-              zIndex: 3,
-            }}
-          >
-            Skip Intro ↓
-          </button>
-
-          {/* Dot indicators */}
-          <div style={{
-            position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)",
-            display: "flex", flexDirection: "column", gap: 10,
-            zIndex: 3,
-          }}>
-            {SLIDES.map((_, i) => (
-              <div key={i} style={{
-                width: 6, height: 6,
-                borderRadius: "50%",
-                background: slideIndex === i ? "white" : "rgba(255,255,255,0.35)",
-                transition: "background 0.3s",
-              }} />
-            ))}
-          </div>
-
         </div>
       </div>
 
+      {/* Skip button */}
+      <button
+        onClick={skip}
+        style={{
+          position: "absolute", top: 20, right: 20,
+          background: "rgba(255,255,255,0.12)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255,255,255,0.3)",
+          borderRadius: 999,
+          color: "white",
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          fontSize: 13,
+          padding: "8px 18px",
+          cursor: "pointer",
+          letterSpacing: "0.05em",
+          zIndex: 3,
+        }}
+      >
+        Skip ↓
+      </button>
+
+      {/* Dot indicators */}
+      <div style={{
+        position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)",
+        display: "flex", flexDirection: "column", gap: 10,
+        zIndex: 3,
+      }}>
+        {SLIDES.map((_, i) => (
+          <div key={i} style={{
+            width: 6, height: 6,
+            borderRadius: "50%",
+            background: slideIndex === i ? "white" : "rgba(255,255,255,0.35)",
+            transition: "background 0.3s",
+          }} />
+        ))}
+      </div>
+
       <style>{`
-        @keyframes bounceDown {
-          0%, 100% { transform: translateY(0); }
-          50%       { transform: translateY(6px); }
+        @keyframes introProgress {
+          from { width: 0%; }
+          to   { width: 100%; }
         }
       `}</style>
-    </>
+    </div>
   );
 }
