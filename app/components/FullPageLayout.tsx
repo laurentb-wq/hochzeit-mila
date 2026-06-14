@@ -308,7 +308,7 @@ export default function FullPageLayout() {
                 <p className="text-2xl">🎁</p>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Geschenke</p>
                 <p className="text-sm leading-relaxed" style={{ color: MUTED }}>
-                  Unser Haushalt ist komplett. Wir freuen uns über einen Zustupf in unsere Familienkasse.
+                  Wenn ihr uns was schenken wollt, freuen wir uns über einen Zuschuss in unsere Familienkasse.
                 </p>
               </Card>
 
