@@ -68,7 +68,7 @@ const SLIDES = [
   { src: "/Mibilabo3.JPG",  title: "BIST DU DABEI?" },
 ];
 
-const DURATION = 2000;
+const DURATION = 2500;
 
 export default function ScrollIntro({ onDone }: { onDone: () => void }) {
   const [slideIndex, setSlideIndex] = useState(0);
