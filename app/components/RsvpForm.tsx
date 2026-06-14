@@ -17,8 +17,6 @@ type Form = {
   children: ChildEntry[];
   kidsLeaveTime: string;
   kidsParentsLeave: string;
-  arrival: string;
-  loveLetter: string;
 };
 
 const init: Form = {
@@ -32,8 +30,6 @@ const init: Form = {
   children: [],
   kidsLeaveTime: "nach_dessert",
   kidsParentsLeave: "",
-  arrival: "",
-  loveLetter: "",
 };
 
 const inputCls =
@@ -126,7 +122,6 @@ export default function RsvpForm() {
       if (form.kidsLeaveTime !== "nach_dessert" && !form.kidsParentsLeave)
         return "Bitte angeben ob beide Elternteile mitgehen.";
     }
-    if (!form.arrival) return "Bitte Anreiseart angeben.";
     return "";
   }
 
@@ -149,8 +144,6 @@ export default function RsvpForm() {
           kids_stay: isYes && form.hasChildren === "yes" ? form.kidsLeaveTime : null,
           kids_parents_leave: isYes && form.hasChildren === "yes" && form.kidsLeaveTime !== "nach_dessert"
             ? form.kidsParentsLeave : null,
-          arrival: isYes ? form.arrival : null,
-          love_letter: form.loveLetter || null,
         }),
       });
       if (!res.ok) throw new Error();
@@ -333,43 +326,6 @@ export default function RsvpForm() {
               )}
             </AnimatePresence>
 
-            {/* ANREISE */}
-            <AnimatePresence>
-              {form.hasChildren && (
-                <motion.div key="arrival" {...slide} className="space-y-3">
-                  <Divider title="Anreise" />
-                  <div>
-                    <Label>Wie kommt ihr?</Label>
-                    <Pills cols={2}
-                      options={[
-                        { v: "auto", l: "🚗 Auto" },
-                        { v: "ov", l: "🚌 ÖV & Fähre" },
-                        { v: "velo", l: "🚲 Velo" },
-                      ]}
-                      value={form.arrival}
-                      onChange={v => set("arrival", v)}
-                    />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* LIEBESBRIEF */}
-            <AnimatePresence>
-              {form.arrival && (
-                <motion.div key="love" {...slide} className="space-y-3">
-                  <Divider title="💌 Liebesbrief ans Brautpaar" />
-                  <p className="text-xs" style={{ color: MUTED }}>
-                    Kein Druck — aber wenn du uns etwas sagen möchtest, ist hier Platz.
-                    Wir versprechen, es nicht laut vorzulesen. Wahrscheinlich.
-                  </p>
-                  <textarea value={form.loveLetter}
-                    onChange={e => set("loveLetter", e.target.value)}
-                    placeholder="Liebe Mirjam, lieber Laurent…"
-                    rows={4} className={`${inputCls} resize-none`} />
-                </motion.div>
-              )}
-            </AnimatePresence>
 
           </motion.div>
         )}
@@ -377,7 +333,7 @@ export default function RsvpForm() {
 
       {/* SUBMIT */}
       <AnimatePresence>
-        {((isNo && form.adult1Name.trim()) || (isYes && form.arrival)) && (
+        {((isNo && form.adult1Name.trim()) || (isYes && form.hasChildren)) && (
           <motion.div key="submit" {...slide}>
             <AnimatePresence>
               {err && (
