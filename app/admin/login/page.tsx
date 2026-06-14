@@ -10,7 +10,7 @@ export default function AdminLogin() {
   function submit(e: React.FormEvent) {
     e.preventDefault();
     if (pw === "123") {
-      document.cookie = "admin_auth=1; path=/; max-age=86400";
+      document.cookie = "admin_auth=1; path=/; max-age=7776000";
       router.push("/admin");
     } else {
       setErr(true);
