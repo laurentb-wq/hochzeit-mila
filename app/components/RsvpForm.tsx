@@ -154,10 +154,25 @@ export default function RsvpForm() {
 
   if (status === "success") return (
     <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
-      className="text-center py-16 space-y-3">
-      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
-        transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.1 }}
-        className="text-5xl">{form.attending === "yes" ? "🎉" : "💌"}</motion.div>
+      className="text-center py-10 space-y-4">
+      {form.attending === "yes" ? (
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          style={{ borderRadius: 16, overflow: "hidden", maxWidth: 320, margin: "0 auto" }}>
+          <video
+            src="/Gif.mov"
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{ width: "100%", display: "block", borderRadius: 16 }}
+          />
+        </motion.div>
+      ) : (
+        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.1 }}
+          className="text-5xl">💌</motion.div>
+      )}
       <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Danke!</p>
       <p style={{ color: MUTED }} className="text-sm">
         {form.attending === "yes"
