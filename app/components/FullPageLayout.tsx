@@ -183,10 +183,9 @@ export default function FullPageLayout() {
               <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Festlich Sommerlich</p>
               <p className="text-sm leading-relaxed" style={{ color: MUTED }}>Elegant genug für ein Hochzeitsfoto, bequem genug für die Tanzfläche um Mitternacht. Das Brautpaar ist automatisch das Schönste im Raum — du kannst entspannt auftreten. 😉</p>
             </Card>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch">
               {[
                 { icon: "✅", title: "Go for it", items: ["Elegante Kleidung", "Farbe & Freude", "Leinen", "Sonnenschutz"] },
-                { icon: "🚫", title: "Lieber nicht", items: ["Jeans", "Pyjama", "Gummistiefel"] },
                 { icon: "☀️", title: "Wichtig", items: ["August, Aare, Sonne", "Draussen & im Gewächshaus", "Badesachen? Vielleicht 😄"] },
               ].map(({ icon, title, items }) => (
                 <Card key={title} className="h-full">
