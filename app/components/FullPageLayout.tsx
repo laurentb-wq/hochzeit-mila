@@ -88,10 +88,9 @@ export default function FullPageLayout() {
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614", height: NAV_H }}>
-        <div className="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
-          <span />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-3">
           <div className="flex gap-2 sm:gap-6 text-xs sm:text-sm">
-            {NAV_LINKS.map(({ label, idx }) => {
+            {NAV_LINKS.filter(l => l.label !== "Anmeldung").map(({ label, idx }) => {
               const isActive = active === idx;
               return (
                 <button key={label} onClick={() => scrollTo(idx)} style={{
@@ -101,13 +100,34 @@ export default function FullPageLayout() {
                   padding: "4px 0",
                   borderBottom: isActive ? `2px solid ${ACCENT}` : "2px solid transparent",
                   transition: "all 0.3s ease",
+                  whiteSpace: "nowrap",
                 }}>
                   {label}
                 </button>
               );
             })}
           </div>
-          <span />
+          <button
+            onClick={() => scrollTo(5)}
+            style={{
+              background: ACCENT,
+              color: "white",
+              border: "none",
+              borderRadius: 999,
+              padding: "7px 16px",
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: "0.04em",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+              transition: "opacity 0.2s",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
+            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+          >
+            Anmeldung
+          </button>
         </div>
       </nav>
 
