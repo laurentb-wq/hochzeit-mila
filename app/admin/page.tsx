@@ -63,34 +63,6 @@ export default async function AdminPage() {
           ))}
         </div>
 
-        {/* Bestellübersicht */}
-        {yes.length > 0 && (
-          <div className="bg-white rounded-2xl border border-[#CDD5B0] p-5 mb-6">
-            <p className="text-[11px] font-bold uppercase tracking-widest mb-4" style={{ color: "#5C6B3A" }}>Bestellübersicht</p>
-            <div className="space-y-3">
-              {[
-                { label: "🥂 Apéro", count: apero },
-                { label: "🍽️ Hauptgang", count: apero },
-                { label: "🍰 Dessert", count: dessert },
-              ].map(({ label, count }) => (
-                <div key={label} className="flex items-center gap-4">
-                  <div className="flex-1">
-                    <div className="flex justify-between items-baseline mb-1">
-                      <span className="text-sm font-semibold" style={{ color: "#1E2614" }}>{label}</span>
-                      <span className="text-sm font-bold" style={{ color: "#5C6B3A" }}>{count} Pers.</span>
-                    </div>
-                    <div className="h-2 rounded-full overflow-hidden" style={{ background: "#F0F3E8" }}>
-                      <div className="h-full rounded-full" style={{ width: apero > 0 ? `${(count / apero) * 100}%` : "0%", background: "#5C6B3A", transition: "width 0.5s" }} />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="text-xs mt-4" style={{ color: "#8A9870" }}>
-              Zählung nur Kinder ab 6 Jahren.{kidsLeaveEarly > 0 ? ` ${kidsLeaveEarly} Kind${kidsLeaveEarly > 1 ? "er gehen" : " geht"} vor dem Dessert — Details in den Einträgen.` : ""}
-            </p>
-          </div>
-        )}
 
         {errorMsg && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-red-500 text-sm">{errorMsg}</div>
