@@ -182,7 +182,7 @@ export default function FullPageLayout() {
           <Countdown />
           <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 w-full">
             <Card className="space-y-2 flex flex-col">
-              <p className="text-2xl">📅</p>
+              <p className="text-2xl">🗓️</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Datum</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>14. August 2026</p>
             </Card>
@@ -192,7 +192,7 @@ export default function FullPageLayout() {
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>Zehendermätteli</p>
             </Card>
             <Card className="space-y-2 flex flex-col">
-              <p className="text-2xl">🗓️</p>
+              <p className="text-2xl">📋</p>
               <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Anmeldung</p>
               <p className="font-bold text-base" style={{ color: "#1E2614" }}>Bis 1. Juli 2026</p>
             </Card>
@@ -223,6 +223,7 @@ export default function FullPageLayout() {
                 </div>
               ))}
             </div>
+            <p className="text-center text-xs mt-6" style={{ color: MUTED }}>* Programmänderung vorbehalten</p>
           </div>
         </div>
       </section>
@@ -306,12 +307,12 @@ export default function FullPageLayout() {
                 <p className="text-2xl">💬</p>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Bei Fragen</p>
                 <p className="text-sm leading-relaxed mb-3" style={{ color: MUTED }}>
-                  Meldet euch direkt bei uns. Falls ihr uns nicht erreicht, wendet euch an unsere Trauzeugen:
+                  Bei Fragen, die uns nichts angehen, bitte an unsere Trauzeugen wenden:
                 </p>
                 <div className="space-y-2 text-sm" style={{ color: MUTED }}>
-                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Julia</span><span>+41 79 000 00 01</span></div>
-                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Nirojan</span><span>+41 79 000 00 02</span></div>
-                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Max</span><span>+41 79 000 00 03</span></div>
+                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Julia</span><span>079 487 84 72</span></div>
+                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Niro</span><span>076 597 17 35</span></div>
+                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Max</span><span>079 748 96 85</span></div>
                 </div>
               </Card>
 
@@ -326,7 +327,7 @@ export default function FullPageLayout() {
           <div className="max-w-lg mx-auto">
             <SectionHeader label="Bist du dabei?" title="Anmeldung" />
             <p className="text-center text-sm mb-8" style={{ color: MUTED }}>
-              Bitte bis <strong style={{ color: "#1E2614" }}>1. Juli 2026</strong> anmelden.
+              Bitte bis <strong style={{ color: "#1E2614" }}>1. Juli 2026</strong> an- oder abmelden.
             </p>
             <div className="bg-white rounded-2xl border border-[#CDD5B0] p-4 sm:p-6">
               <RsvpForm />
