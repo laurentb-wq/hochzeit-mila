@@ -230,7 +230,7 @@ export default function RsvpForm() {
                     <Label>Unverträglichkeiten & Ernährungswünsche</Label>
                     <textarea value={form.adultRemarks}
                       onChange={e => set("adultRemarks", e.target.value)}
-                      placeholder="z.B. laktosefrei, vegetarisch, keine Nüsse… (für alle Erwachsenen)"
+                      placeholder="z.B. laktosefrei, vegetarisch, keine Nüsse…"
                       rows={3} className={`${inputCls} resize-none`} />
                   </motion.div>
                 )}
