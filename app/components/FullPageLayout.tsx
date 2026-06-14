@@ -244,7 +244,7 @@ export default function FullPageLayout() {
             </Card>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch">
               {[
-                { icon: "✅", title: "Go for it", items: ["Elegante Kleidung", "Farbe & Freude", "Leinen", "Sonnenschutz"] },
+                { icon: "✨", title: "Wir freuen uns über", items: ["Farben statt Schwarz", "Luftige Sommeroutfits", "Festliche Leichtigkeit", "Gute Laune"] },
                 { icon: "☀️", title: "Wichtig", items: ["August, Aare, Sonne", "Draussen & im Gewächshaus", "Badesachen? Vielleicht 😄"] },
               ].map(({ icon, title, items }) => (
                 <Card key={title} className="h-full">
