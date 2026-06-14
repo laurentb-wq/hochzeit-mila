@@ -221,7 +221,7 @@ export default function FullPageLayout() {
             </div>
             <div className="space-y-3">
               {[
-                { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bern Bahnhof → Rossfeld → Übers Wasser", note: "Empfehlung — ÖV = entspannte Feier 🍾" },
+                { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bis Bremgarten Schloss → 400m Spaziergang zur Fähre", note: "Empfehlung — ÖV = entspannte Feier 🍾" },
                 { icon: "🚗", title: "Auto", from: "Irgendwo → Bern", note: "Warnung oben beachten" },
                 { icon: "🚶", title: "Zu Fuss", from: "Ab Tiefenau (RBS S9)", note: "Kurze Strecke entlang der Aare" },
                 { icon: "🚲", title: "Publibike", from: "Eigene Station vor Ort", note: "Direkt beim Zehendermätteli" },
