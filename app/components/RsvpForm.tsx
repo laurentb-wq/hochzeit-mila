@@ -158,7 +158,7 @@ export default function RsvpForm() {
       {form.attending === "yes" ? (
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15, duration: 0.5 }}
-          style={{ borderRadius: 16, overflow: "hidden", maxWidth: 320, margin: "0 auto" }}>
+          style={{ borderRadius: 16, overflow: "hidden", maxWidth: 220, margin: "16px auto" }}>
           <video
             src="/Gif.mov"
             autoPlay
