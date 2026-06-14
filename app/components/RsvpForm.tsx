@@ -303,7 +303,7 @@ export default function RsvpForm() {
                             <div>
                               <Label>Plant ihr mit den Kindern bis zum Dessert zu bleiben?</Label>
                               <Pills cols={2}
-                                options={[{ v: "yes", l: "Ja 🍰" }, { v: "no", l: "Nein, früher" }]}
+                                options={[{ v: "yes", l: "Ja 🍰" }, { v: "no", l: "Nein" }]}
                                 value={form.kidsStayAnswer}
                                 onChange={v => { set("kidsStayAnswer", v); if (v === "yes") set("kidsArrangement", ""); }}
                               />
