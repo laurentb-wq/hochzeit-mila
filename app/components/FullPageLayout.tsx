@@ -34,6 +34,7 @@ const NAV_LINKS = [
 
 const SECTION_COUNT = 6;
 const NAV_H = 64;
+const NAV_H_MOBILE = 90;
 
 export default function FullPageLayout() {
   const [active, setActive] = useState(0);
@@ -67,11 +68,13 @@ export default function FullPageLayout() {
     sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth" });
   }
 
+  const navH = isMobile ? NAV_H_MOBILE : NAV_H;
+
   const sectionStyle: React.CSSProperties = isMobile ? {
     minHeight: "100svh",
     display: "flex",
     flexDirection: "column",
-    paddingTop: NAV_H,
+    paddingTop: navH,
   } : {
     height: "100svh",
     minHeight: "-webkit-fill-available",
@@ -87,9 +90,9 @@ export default function FullPageLayout() {
     <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* ── NAV ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614", height: NAV_H }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-3">
-          <div className="flex gap-2 sm:gap-6 text-xs sm:text-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614", height: navH }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-full flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-1 sm:gap-3">
+          <div className="flex gap-3 sm:gap-6 text-xs sm:text-sm">
             {NAV_LINKS.filter(l => l.label !== "Anmeldung").map(({ label, idx }) => {
               const isActive = active === idx;
               return (
@@ -114,7 +117,7 @@ export default function FullPageLayout() {
               color: "white",
               border: "none",
               borderRadius: 999,
-              padding: "7px 16px",
+              padding: "6px 20px",
               fontSize: 12,
               fontWeight: 700,
               letterSpacing: "0.04em",
