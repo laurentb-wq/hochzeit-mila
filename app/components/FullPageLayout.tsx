@@ -302,13 +302,21 @@ export default function FullPageLayout() {
         <div className="px-6 py-10 flex-1 overflow-y-auto">
           <div className="max-w-3xl mx-auto">
             <SectionHeader label="Noch ein paar Dinge" title="Sonstiges" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
               <Card className="space-y-3">
                 <p className="text-2xl">🎁</p>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Geschenke</p>
                 <p className="text-sm leading-relaxed" style={{ color: MUTED }}>
                   Wenn ihr uns was schenken wollt, freuen wir uns über einen Zuschuss in unsere Familienkasse.
+                </p>
+              </Card>
+
+              <Card className="space-y-3">
+                <p className="text-2xl">👶</p>
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Kinder</p>
+                <p className="text-sm leading-relaxed" style={{ color: MUTED }}>
+                  Kinder sind herzlich willkommen. Gleichzeitig freuen wir uns natürlich auch über alle Eltern, die die Gelegenheit für einen ausgelassenen Abend zu zweit nutzen möchten.
                 </p>
               </Card>
 
