@@ -91,47 +91,75 @@ export default function FullPageLayout() {
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614", height: navH }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-full flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-1 sm:gap-3">
-          <div className="flex gap-3 sm:gap-6 text-xs sm:text-sm">
-            {NAV_LINKS.filter(l => l.label !== "Anmeldung").map(({ label, idx }) => {
-              const isActive = active === idx;
-              return (
-                <button key={label} onClick={() => scrollTo(idx)} style={{
-                  color: isActive ? "#CDD5B0" : "rgba(205,213,176,0.5)",
-                  background: "none", border: "none", cursor: "pointer",
-                  fontSize: "inherit", fontWeight: isActive ? 700 : 400,
-                  padding: "4px 0",
-                  borderBottom: isActive ? `2px solid ${ACCENT}` : "2px solid transparent",
-                  transition: "all 0.3s ease",
-                  whiteSpace: "nowrap",
-                }}>
-                  {label}
-                </button>
-              );
-            })}
+        {isMobile ? (
+          /* Mobile: Anmeldung top-right, links centered below */
+          <div className="h-full flex flex-col justify-center px-4 gap-1.5">
+            <div className="flex justify-end">
+              <button
+                onClick={() => scrollTo(5)}
+                style={{
+                  background: ACCENT, color: "white", border: "none", borderRadius: 999,
+                  padding: "5px 16px", fontSize: 11, fontWeight: 700, letterSpacing: "0.04em",
+                  cursor: "pointer",
+                }}
+              >
+                Anmeldung
+              </button>
+            </div>
+            <div className="flex justify-center gap-4 text-xs">
+              {NAV_LINKS.filter(l => l.label !== "Anmeldung").map(({ label, idx }) => {
+                const isActive = active === idx;
+                return (
+                  <button key={label} onClick={() => scrollTo(idx)} style={{
+                    color: isActive ? "#CDD5B0" : "rgba(205,213,176,0.5)",
+                    background: "none", border: "none", cursor: "pointer",
+                    fontSize: "inherit", fontWeight: isActive ? 700 : 400,
+                    padding: "2px 0",
+                    borderBottom: isActive ? `2px solid ${ACCENT}` : "2px solid transparent",
+                    transition: "all 0.3s ease",
+                  }}>
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <button
-            onClick={() => scrollTo(5)}
-            style={{
-              background: ACCENT,
-              color: "white",
-              border: "none",
-              borderRadius: 999,
-              padding: "6px 20px",
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: "0.04em",
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-              flexShrink: 0,
-              transition: "opacity 0.2s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-          >
-            Anmeldung
-          </button>
-        </div>
+        ) : (
+          /* Desktop: links centered, Anmeldung right */
+          <div className="relative h-full flex items-center px-6">
+            <div className="absolute left-1/2 -translate-x-1/2 flex gap-6 text-sm">
+              {NAV_LINKS.filter(l => l.label !== "Anmeldung").map(({ label, idx }) => {
+                const isActive = active === idx;
+                return (
+                  <button key={label} onClick={() => scrollTo(idx)} style={{
+                    color: isActive ? "#CDD5B0" : "rgba(205,213,176,0.5)",
+                    background: "none", border: "none", cursor: "pointer",
+                    fontSize: "inherit", fontWeight: isActive ? 700 : 400,
+                    padding: "4px 0",
+                    borderBottom: isActive ? `2px solid ${ACCENT}` : "2px solid transparent",
+                    transition: "all 0.3s ease",
+                    whiteSpace: "nowrap",
+                  }}>
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              onClick={() => scrollTo(5)}
+              style={{
+                marginLeft: "auto",
+                background: ACCENT, color: "white", border: "none", borderRadius: 999,
+                padding: "7px 20px", fontSize: 12, fontWeight: 700, letterSpacing: "0.04em",
+                cursor: "pointer", whiteSpace: "nowrap", transition: "opacity 0.2s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
+              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+            >
+              Anmeldung
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* ── HERO ── */}

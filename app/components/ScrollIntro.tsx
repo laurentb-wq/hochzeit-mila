@@ -205,23 +205,8 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
         Skip ↓
       </button>
 
-      {/* Dot indicators */}
-      <div style={{
-        position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)",
-        display: "flex", flexDirection: "column", gap: 10,
-        zIndex: 3,
-      }}>
-        {SLIDES.map((_, i) => (
-          <div key={i} style={{
-            width: 6, height: 6,
-            borderRadius: "50%",
-            background: slideIndex === i ? "white" : "rgba(255,255,255,0.35)",
-            transition: "background 0.3s",
-          }} />
-        ))}
-      </div>
 
-      <style>{`
+<style>{`
         @keyframes introProgress {
           from { width: 0%; }
           to   { width: 100%; }
