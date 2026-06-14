@@ -15,7 +15,7 @@ type Form = {
   hasChildren: string;
   childrenCount: number;
   children: ChildEntry[];
-  kidsStayFull: string;
+  kidsStayAll: boolean;
   kidsArrangement: string;
 };
 
@@ -28,7 +28,7 @@ const init: Form = {
   hasChildren: "",
   childrenCount: 0,
   children: [],
-  kidsStayFull: "",
+  kidsStayAll: false,
   kidsArrangement: "",
 };
 
@@ -118,9 +118,8 @@ export default function RsvpForm() {
       for (let i = 0; i < form.childrenCount; i++) {
         if (!form.children[i]?.age) return `Bitte Alter für Kind ${i + 1} eingeben.`;
       }
-      if (!form.kidsStayFull) return "Bitte angeben ob die Kinder bis zum Dessert bleiben.";
-      if (form.kidsStayFull === "no" && !form.kidsArrangement.trim())
-        return "Bitte erklärt kurz euren Plan für die Kinder.";
+      if (form.childrenCount > 0 && !form.kidsStayAll && !form.kidsArrangement.trim())
+        return "Bitte beschreibt euren Plan oder bestätigt, dass alle bis zum Dessert bleiben.";
     }
     return "";
   }
@@ -141,8 +140,8 @@ export default function RsvpForm() {
           adult_remarks: form.adultRemarks || null,
           children_count: isYes && form.hasChildren === "yes" ? form.childrenCount : 0,
           children: isYes && form.hasChildren === "yes" ? form.children : null,
-          kids_stay: isYes && form.hasChildren === "yes" ? form.kidsStayFull : null,
-          kids_parents_leave: isYes && form.hasChildren === "yes" && form.kidsStayFull === "no"
+          kids_stay: isYes && form.hasChildren === "yes" ? (form.kidsStayAll ? "yes" : "no") : null,
+          kids_parents_leave: isYes && form.hasChildren === "yes" && !form.kidsStayAll
             ? form.kidsArrangement : null,
         }),
       });
@@ -291,30 +290,24 @@ export default function RsvpForm() {
                         {form.childrenCount > 0 && (
                           <motion.div {...slide} className="space-y-3">
                             <div>
-                              <Label>Bleiben die Kinder bis zum Dessert?</Label>
-                              <Pills cols={2}
-                                options={[
-                                  { v: "yes", l: "Ja, bis zum Dessert 🍰" },
-                                  { v: "no", l: "Nein, früher" },
-                                ]}
-                                value={form.kidsStayFull}
-                                onChange={v => { set("kidsStayFull", v); set("kidsArrangement", ""); }}
-                              />
+                              <p className="text-xs mb-2" style={{ color: MUTED }}>
+                                Falls ihr oder jemand von euch vor dem Dessert plant zu gehen, beschreibt bitte kurz wie ihr das plant, damit wir entsprechend Apéros, Hauptgänge und Desserts bestellen können.
+                              </p>
+                              <textarea value={form.kidsArrangement}
+                                onChange={e => set("kidsArrangement", e.target.value)}
+                                placeholder="z.B. Die Kinder gehen nach dem Hauptgang mit Mama nach Hause, Papa bleibt…"
+                                rows={3} className={`${inputCls} resize-none`} />
                             </div>
-                            <AnimatePresence>
-                              {form.kidsStayFull === "no" && (
-                                <motion.div key="kids-arrangement" {...slide}>
-                                  <Label>Euer Plan</Label>
-                                  <p className="text-xs mb-2" style={{ color: MUTED }}>
-                                    Bitte erklärt uns kurz, wie ihr es plant, damit wir die richtige Anzahl Apéros, Hauptgänge und Desserts bestellen können.
-                                  </p>
-                                  <textarea value={form.kidsArrangement}
-                                    onChange={e => set("kidsArrangement", e.target.value)}
-                                    placeholder="z.B. Die Kinder gehen nach dem Hauptgang mit Mama nach Hause, Papa bleibt…"
-                                    rows={3} className={`${inputCls} resize-none`} />
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
+                            <label className="flex items-center gap-3 cursor-pointer select-none">
+                              <input
+                                type="checkbox"
+                                checked={form.kidsStayAll}
+                                onChange={e => set("kidsStayAll", e.target.checked)}
+                                className="w-4 h-4 rounded"
+                                style={{ accentColor: ACCENT }}
+                              />
+                              <span className="text-sm" style={{ color: MUTED }}>Wir planen alle bis zum Dessert zu bleiben.</span>
+                            </label>
                           </motion.div>
                         )}
                       </motion.div>
