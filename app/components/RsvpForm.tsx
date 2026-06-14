@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const ACCENT = "#5C6B3A";
 const MUTED = "#74825A";
 
-type ChildEntry = { age: string; remarks: string };
+type ChildEntry = { age: string };
 type Form = {
   attending: string;
   adult1Name: string;
@@ -15,7 +15,7 @@ type Form = {
   hasChildren: string;
   childrenCount: number;
   children: ChildEntry[];
-  kidsLeaveEarly: boolean;
+  kidsStayAnswer: string;
   kidsArrangement: string;
 };
 
@@ -28,7 +28,7 @@ const init: Form = {
   hasChildren: "",
   childrenCount: 0,
   children: [],
-  kidsLeaveEarly: false,
+  kidsStayAnswer: "",
   kidsArrangement: "",
 };
 
@@ -97,7 +97,7 @@ export default function RsvpForm() {
     setForm(p => ({
       ...p,
       childrenCount: n,
-      children: Array.from({ length: n }, (_, i) => p.children[i] ?? { age: "", remarks: "" }),
+      children: Array.from({ length: n }, (_, i) => p.children[i] ?? { age: "" }),
     }));
   }
 
@@ -118,7 +118,9 @@ export default function RsvpForm() {
       for (let i = 0; i < form.childrenCount; i++) {
         if (!form.children[i]?.age) return `Bitte Alter für Kind ${i + 1} eingeben.`;
       }
-      if (form.childrenCount > 0 && form.kidsLeaveEarly && !form.kidsArrangement.trim())
+      if (form.childrenCount > 0 && !form.kidsStayAnswer)
+        return "Bitte angeben ob die Kinder bis zum Dessert bleiben.";
+      if (form.kidsStayAnswer === "no" && !form.kidsArrangement.trim())
         return "Bitte beschreibt kurz euren Plan.";
     }
     return "";
@@ -140,8 +142,8 @@ export default function RsvpForm() {
           adult_remarks: form.adultRemarks || null,
           children_count: isYes && form.hasChildren === "yes" ? form.childrenCount : 0,
           children: isYes && form.hasChildren === "yes" ? form.children : null,
-          kids_stay: isYes && form.hasChildren === "yes" ? (form.kidsLeaveEarly ? "no" : "yes") : null,
-          kids_parents_leave: isYes && form.hasChildren === "yes" && form.kidsLeaveEarly
+          kids_stay: isYes && form.hasChildren === "yes" ? form.kidsStayAnswer || null : null,
+          kids_parents_leave: isYes && form.hasChildren === "yes" && form.kidsStayAnswer === "no"
             ? form.kidsArrangement : null,
         }),
       });
@@ -292,31 +294,22 @@ export default function RsvpForm() {
                                   onChange={e => updateChild(i, "age", e.target.value)}
                                   placeholder="Alter in Jahren" className={inputCls} />
                               </div>
-                              <div>
-                                <Label>Unverträglichkeiten (optional)</Label>
-                                <input type="text" value={child.remarks}
-                                  onChange={e => updateChild(i, "remarks", e.target.value)}
-                                  placeholder="z.B. keine Milch, mag kein Gemüse…" className={inputCls} />
-                              </div>
                             </motion.div>
                           ))}
                         </AnimatePresence>
 
                         {form.childrenCount > 0 && (
                           <motion.div {...slide} className="space-y-3">
-                            <Label>Plant ihr mit den Kindern bis zum Dessert zu bleiben?</Label>
-                            <label className="flex items-center gap-3 cursor-pointer select-none">
-                              <input
-                                type="checkbox"
-                                checked={form.kidsLeaveEarly}
-                                onChange={e => { set("kidsLeaveEarly", e.target.checked); if (!e.target.checked) set("kidsArrangement", ""); }}
-                                className="w-4 h-4 rounded"
-                                style={{ accentColor: ACCENT }}
+                            <div>
+                              <Label>Plant ihr mit den Kindern bis zum Dessert zu bleiben?</Label>
+                              <Pills cols={2}
+                                options={[{ v: "yes", l: "Ja 🍰" }, { v: "no", l: "Nein, früher" }]}
+                                value={form.kidsStayAnswer}
+                                onChange={v => { set("kidsStayAnswer", v); if (v === "yes") set("kidsArrangement", ""); }}
                               />
-                              <span className="text-sm" style={{ color: MUTED }}>Nicht alle von uns bleiben bis zum Dessert.</span>
-                            </label>
+                            </div>
                             <AnimatePresence>
-                              {form.kidsLeaveEarly && (
+                              {form.kidsStayAnswer === "no" && (
                                 <motion.div key="kids-plan" {...slide}>
                                   <p className="text-xs mb-2" style={{ color: MUTED }}>
                                     Beschreibt bitte kurz wie ihr das plant, damit wir entsprechend Hauptgänge und Desserts bestellen können.
