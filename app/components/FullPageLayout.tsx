@@ -333,8 +333,9 @@ export default function FullPageLayout() {
             </div>
           </div>
         </div>
-        <footer className="px-6 py-4 sm:py-3 mt-6 sm:mt-0 text-center flex-shrink-0" style={{ background: "#1E2614" }}>
+        <footer className="px-6 py-4 sm:py-3 mt-6 sm:mt-0 text-center flex-shrink-0 space-y-1" style={{ background: "#1E2614" }}>
           <p className="text-xs" style={{ color: "rgba(205,213,176,0.5)" }}>Made with 💚 & Claude Code</p>
+          <p className="text-xs" style={{ color: "rgba(205,213,176,0.35)" }}>Mirjam Bieri und Laurent Born · Önizstrasse 43 · 3008 Bern</p>
         </footer>
       </section>
 
