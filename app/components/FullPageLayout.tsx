@@ -269,18 +269,22 @@ export default function FullPageLayout() {
             <SectionHeader label="Wie komme ich hin?" title="Anreise" />
             <div className="space-y-3">
               {[
-                { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bis Bremgarten Schloss → 400m Spaziergang zur Fähre · Rückweg per Taxi", note: "" },
-                { icon: "🚗", title: "Auto", from: "Achtung: Das Navi führt auf die falsche Seite der Aare. Anfahrt via Reichenbachstrasse bis ans Ende im Wald. Es hat Parkplätze vor Ort, es kann aber sein, dass diese bereits besetzt sind.", note: "" },
-                { icon: "🚲", title: "Publibike", from: "Eigene Station direkt beim Zehendermätteli", note: "" },
-                { icon: "🚴", title: "Eigenes Velo", from: "Via Reichenbachstrasse durch den Wald bis direkt zum Zehendermätteli", note: "" },
-              ].map(({ icon, title, from, note }) => (
+                { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bis Bremgarten Schloss → 400m Spaziergang zur Fähre · Rückweg per Taxi", recommended: true },
+                { icon: "🚗", title: "Auto", from: "Achtung: Das Navi führt auf die falsche Seite der Aare. Anfahrt via Reichenbachstrasse bis ans Ende im Wald. Es hat Parkplätze vor Ort, es kann aber sein, dass diese bereits besetzt sind.", recommended: false },
+                { icon: "🚲", title: "Publibike", from: "Eigene Station direkt beim Zehendermätteli", recommended: false },
+                { icon: "🚴", title: "Eigenes Velo", from: "Via Reichenbachstrasse durch den Wald bis direkt zum Zehendermätteli", recommended: false },
+              ].map(({ icon, title, from, recommended }) => (
                 <Card key={title} className="flex items-center gap-4">
                   <span className="text-xl flex-shrink-0">{icon}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm" style={{ color: "#1E2614" }}>{title}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-semibold text-sm" style={{ color: "#1E2614" }}>{title}</p>
+                      {recommended && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style={{ background: "#EEF2E6", color: ACCENT }}>Empfehlung</span>
+                      )}
+                    </div>
                     <p className="text-sm" style={{ color: MUTED }}>{from}</p>
                   </div>
-                  <p className="text-xs text-right hidden sm:block max-w-[160px]" style={{ color: MUTED }}>{note}</p>
                 </Card>
               ))}
             </div>
