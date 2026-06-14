@@ -271,7 +271,7 @@ export default function FullPageLayout() {
                 { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bis Bremgarten Schloss → 400m Spaziergang zur Fähre · Rückweg per Taxi", note: "Empfehlung — ÖV = entspannte Feier 🍾" },
                 { icon: "🚗", title: "Auto", from: "Achtung: Das Navi führt auf die falsche Seite der Aare. Anfahrt via Reichenbachstrasse bis ans Ende im Wald. Einige Parkplätze vorhanden.", note: "" },
                 { icon: "🚲", title: "Publibike", from: "Eigene Station vor Ort", note: "Direkt beim Zehendermätteli" },
-                { icon: "🚴", title: "Eigenes Velo", from: "Velowege entlang der Aare", note: "Abstellplätze vor Ort" },
+                { icon: "🚴", title: "Eigenes Velo", from: "Via Reichenbachstrasse durch den Wald bis direkt zum Zehendermätteli", note: "Abstellplätze vor Ort" },
               ].map(({ icon, title, from, note }) => (
                 <Card key={title} className="flex items-center gap-4">
                   <span className="text-xl flex-shrink-0">{icon}</span>
