@@ -289,6 +289,7 @@ export default function RsvpForm() {
 
                         {form.childrenCount > 0 && (
                           <motion.div {...slide} className="space-y-3">
+                            <Label>Plant ihr mit den Kindern bis zum Dessert zu bleiben?</Label>
                             <label className="flex items-center gap-3 cursor-pointer select-none">
                               <input
                                 type="checkbox"
@@ -303,11 +304,11 @@ export default function RsvpForm() {
                               {form.kidsLeaveEarly && (
                                 <motion.div key="kids-plan" {...slide}>
                                   <p className="text-xs mb-2" style={{ color: MUTED }}>
-                                    Beschreibt bitte kurz wie ihr das plant, damit wir entsprechend Apéros, Hauptgänge und Desserts bestellen können.
+                                    Beschreibt bitte kurz wie ihr das plant, damit wir entsprechend Hauptgänge und Desserts bestellen können.
                                   </p>
                                   <textarea value={form.kidsArrangement}
                                     onChange={e => set("kidsArrangement", e.target.value)}
-                                    placeholder="z.B. Die Kinder gehen nach dem Hauptgang mit Mama nach Hause, Papa bleibt…"
+                                    placeholder="z.B. Papa geht mit den Kindern nach Hause, Mama bleibt…"
                                     rows={3} className={`${inputCls} resize-none`} />
                                 </motion.div>
                               )}
