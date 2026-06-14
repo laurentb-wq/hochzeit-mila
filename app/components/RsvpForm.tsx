@@ -316,7 +316,7 @@ export default function RsvpForm() {
                                   </p>
                                   <textarea value={form.kidsArrangement}
                                     onChange={e => set("kidsArrangement", e.target.value)}
-                                    placeholder="z.B. Papa geht mit den Kindern nach Hause, Mama bleibt…"
+                                    placeholder="z.B. Papa geht mit den Kindern nach dem Abendessen nach Hause, Mama bleibt…"
                                     rows={3} className={`${inputCls} resize-none`} />
                                 </motion.div>
                               )}
