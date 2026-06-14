@@ -164,7 +164,7 @@ export default function FullPageLayout() {
                 { time: "18:30",    icon: "🍽️", title: "Abendessen" },
                 { time: "21:30",    icon: "🍰", title: "Dessert" },
                 { time: "01:00",    icon: "🌙", title: "Letzte Runde" },
-                { time: "01:30",    icon: "✨", title: "Schluss" },
+                { time: "01:30",    icon: "✨", title: "Ende" },
               ].map(({ time, icon, title }) => (
                 <div key={title} className="flex items-center gap-4 py-3 relative sm:gap-0">
                   <span className="text-xs font-semibold tabular-nums text-right w-10 flex-shrink-0 leading-none sm:w-1/2 sm:pr-5 sm:text-sm" style={{ color: MUTED }}>{time}</span>
