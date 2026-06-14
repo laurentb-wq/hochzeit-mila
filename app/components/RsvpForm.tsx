@@ -165,9 +165,13 @@ export default function RsvpForm() {
       className="text-center py-16 space-y-3">
       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.1 }}
-        className="text-5xl">🎉</motion.div>
+        className="text-5xl">{form.attending === "yes" ? "🎉" : "💌"}</motion.div>
       <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Danke!</p>
-      <p style={{ color: MUTED }} className="text-sm">Wir freuen uns riesig auf dich am 14. August.</p>
+      <p style={{ color: MUTED }} className="text-sm">
+        {form.attending === "yes"
+          ? "Wir freuen uns riesig auf dich am 14. August."
+          : "Schade, dass du nicht dabei sein kannst. Wir haben deine Abmeldung erhalten."}
+      </p>
     </motion.div>
   );
 
