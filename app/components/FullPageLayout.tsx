@@ -34,7 +34,7 @@ const NAV_LINKS = [
 
 const SECTION_COUNT = 6;
 const NAV_H = 64;
-const NAV_H_MOBILE = 90;
+const NAV_H_MOBILE = 100;
 
 export default function FullPageLayout() {
   const [active, setActive] = useState(0);
@@ -93,7 +93,7 @@ export default function FullPageLayout() {
       <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "#1E2614", height: navH }}>
         {isMobile ? (
           /* Mobile: Anmeldung top-right, links centered below */
-          <div className="h-full flex flex-col justify-center px-4 gap-1.5">
+          <div className="h-full flex flex-col justify-center px-4 gap-3">
             <div className="flex justify-end">
               <button
                 onClick={() => scrollTo(5)}
