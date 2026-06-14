@@ -25,13 +25,17 @@ export default async function AdminPage() {
   const no = rsvps.filter(r => r.attending === "no");
   const adults = yes.reduce((s, r) => s + (r.adult2_name ? 2 : 1), 0);
   const kids = yes.reduce((s, r) => s + (r.children_count ?? 0), 0);
+  const kids6plus = yes.reduce((s, r) =>
+    s + (r.children ?? []).filter(c => Number(c.age) >= 6).length, 0);
 
   const kidsStayAll = yes.reduce((s, r) =>
     r.children_count > 0 && r.kids_stay === "yes" ? s + r.children_count : s, 0);
+  const kids6plusStay = yes.reduce((s, r) =>
+    r.kids_stay === "yes" ? s + (r.children ?? []).filter(c => Number(c.age) >= 6).length : s, 0);
   const kidsLeaveEarly = kids - kidsStayAll;
 
-  const apero = adults + kids;
-  const dessert = adults + kidsStayAll;
+  const apero = adults + kids6plus;
+  const dessert = adults + kids6plusStay;
 
   return (
     <div style={{ background: "#EAEDDA", minHeight: "100vh", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -49,11 +53,12 @@ export default async function AdminPage() {
             { v: yes.length, l: "Zusagen", c: "#5a9e6f" },
             { v: no.length, l: "Absagen", c: "#9e9e9e" },
             { v: adults, l: "Erwachsene", c: "#5C6B3A" },
-            { v: kids, l: "Kinder", c: "#9e7ab5" },
-          ].map(({ v, l, c }) => (
+            { v: kids, l: "Kinder", c: "#9e7ab5", sub: kids6plus > 0 ? `${kids6plus} ab 6 J.` : undefined },
+          ].map(({ v, l, c, sub }) => (
             <div key={l} className="bg-white rounded-2xl border border-[#CDD5B0] p-5 text-center">
               <p className="text-3xl font-bold" style={{ color: c }}>{v}</p>
               <p className="text-xs uppercase tracking-wider mt-1" style={{ color: "#74825A" }}>{l}</p>
+              {sub && <p className="text-xs mt-0.5" style={{ color: "#9e7ab5" }}>{sub}</p>}
             </div>
           ))}
         </div>
@@ -81,11 +86,9 @@ export default async function AdminPage() {
                 </div>
               ))}
             </div>
-            {kidsLeaveEarly > 0 && (
-              <p className="text-xs mt-4" style={{ color: "#8A9870" }}>
-                * {kidsLeaveEarly} Kind{kidsLeaveEarly > 1 ? "er gehen" : " geht"} vor dem Dessert — Details in den Einträgen.
-              </p>
-            )}
+            <p className="text-xs mt-4" style={{ color: "#8A9870" }}>
+              Zählung nur Kinder ab 6 Jahren.{kidsLeaveEarly > 0 ? ` ${kidsLeaveEarly} Kind${kidsLeaveEarly > 1 ? "er gehen" : " geht"} vor dem Dessert — Details in den Einträgen.` : ""}
+            </p>
           </div>
         )}
 
