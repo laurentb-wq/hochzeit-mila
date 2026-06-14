@@ -63,9 +63,9 @@ function useBokehCanvas() {
 }
 
 const SLIDES = [
-  { src: "/Mibilabo2.JPG",  title: "WIR HABEN GEHEIRATET" },
-  { src: "/mibilabo3.JPG",  title: "DAS WOLLEN WIR FEIERN" },
-  { src: "/Mibilabo1.jpg",  title: "BIST DU DABEI?" },
+  { src: "/Mibilabo1.jpg",  title: "WIR HABEN GEHEIRATET" },
+  { src: "/Mibilabo2.JPG",  title: "DAS WOLLEN WIR FEIERN" },
+  { src: "/Mibilabo3.JPG",  title: "BIST DU DABEI?" },
 ];
 
 const DURATION = 2000;

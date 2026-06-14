@@ -170,7 +170,7 @@ export default function FullPageLayout() {
       <section ref={el => { sectionRefs.current[0] = el; }} style={sectionStyle}>
         <div className="flex flex-col items-center justify-center text-center px-6 py-10 flex-1">
           <div className="flex justify-center gap-2 sm:gap-3 mb-8">
-            {["/Mibilabo2.JPG", "/mibilabo3.JPG", "/Mibilabo1.jpg"].map((src, i) => (
+            {["/Mibilabo1.jpg", "/Mibilabo2.JPG", "/Mibilabo3.JPG"].map((src, i) => (
               <div key={i} className="rounded-2xl overflow-hidden shadow-md" style={{ width: "clamp(80px, 25vw, 135px)", height: "clamp(80px, 25vw, 135px)" }}>
                 <img src={src} alt="" className="w-full h-full object-cover" />
               </div>
