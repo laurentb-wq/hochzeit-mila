@@ -324,7 +324,7 @@ export default function FullPageLayout() {
                 <p className="text-2xl">💬</p>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Bei Fragen</p>
                 <p className="text-sm leading-relaxed mb-3" style={{ color: MUTED }}>
-                  Bei Fragen, die uns nichts angehen, bitte an unsere Trauzeugen wenden:
+                  Für alle Fragen, die lieber eine Überraschung bleiben sollen, helfen euch unsere Trauzeuginnen und Trauzeugen gerne weiter:
                 </p>
                 <div className="space-y-2 text-sm" style={{ color: MUTED }}>
                   <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Julia</span><span>079 487 84 72</span></div>
