@@ -215,7 +215,7 @@ export default function FullPageLayout() {
             <div className="space-y-3">
               {[
                 { icon: "🚌⛵", title: "Bus Nr. 21 & Fähre", from: "Bis Bremgarten Schloss → 400m Spaziergang zur Fähre", note: "Empfehlung — ÖV = entspannte Feier 🍾" },
-                { icon: "🚗", title: "Auto", from: "Irgendwo → Bern", note: "Warnung oben beachten" },
+                { icon: "🚗", title: "Auto", from: "Achtung: Das Navi führt auf die falsche Seite der Aare. Anfahrt via Reichenbachstrasse bis ans Ende im Wald. Einige Parkplätze vorhanden.", note: "" },
                 { icon: "🚲", title: "Publibike", from: "Eigene Station vor Ort", note: "Direkt beim Zehendermätteli" },
                 { icon: "🚴", title: "Eigenes Velo", from: "Velowege entlang der Aare", note: "Abstellplätze vor Ort" },
               ].map(({ icon, title, from, note }) => (
