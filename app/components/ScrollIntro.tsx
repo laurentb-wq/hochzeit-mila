@@ -99,21 +99,31 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 100, overflow: "hidden" }}>
 
-      {/* Background images — crossfade */}
+      {/* Background images — crossfade + Ken Burns zoom */}
       {SLIDES.map((s, i) => (
         <div
           key={s.src}
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `url(${s.src})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            overflow: "hidden",
             opacity: i === slideIndex ? 1 : 0,
-            transition: "opacity 0.7s ease",
-            filter: "brightness(0.55)",
+            transition: "opacity 0.8s ease",
           }}
-        />
+        >
+          <div
+            key={i === slideIndex ? `active-${slideIndex}` : `idle-${i}`}
+            style={{
+              position: "absolute",
+              inset: "-6%",
+              backgroundImage: `url(${s.src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "brightness(0.55)",
+              animation: i === slideIndex ? `kenBurns ${DURATION + 800}ms linear forwards` : "none",
+            }}
+          />
+        </div>
       ))}
 
       {/* Bokeh */}
@@ -138,14 +148,18 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
         textAlign: "center",
         fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}>
-        <h1 style={{
-          fontSize: "clamp(28px, 6vw, 64px)",
-          fontWeight: 700,
-          letterSpacing: "0.06em",
-          lineHeight: 1.15,
-          color: "white",
-          textShadow: "0 2px 24px rgba(0,0,0,0.4)",
-        }}>
+        <h1
+          key={slideIndex}
+          style={{
+            fontSize: "clamp(28px, 6vw, 64px)",
+            fontWeight: 700,
+            letterSpacing: "0.06em",
+            lineHeight: 1.15,
+            color: "white",
+            textShadow: "0 2px 24px rgba(0,0,0,0.4)",
+            animation: "fadeInUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards",
+          }}
+        >
           {SLIDES[slideIndex].title}
         </h1>
 
@@ -211,6 +225,14 @@ export default function ScrollIntro({ onDone }: { onDone: () => void }) {
         @keyframes introProgress {
           from { width: 0%; }
           to   { width: 100%; }
+        }
+        @keyframes kenBurns {
+          from { transform: scale(1); }
+          to   { transform: scale(1.08); }
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>
