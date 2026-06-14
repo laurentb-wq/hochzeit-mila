@@ -3,8 +3,9 @@ import "./globals.css";
 import BokehBackground from "./components/BokehBackground";
 
 export const metadata: Metadata = {
-  title: "Mirjam & Laurent — 14. August 2025",
+  title: "Mirjam & Laurent — 14. August 2026",
   description: "Wir heiraten! Zehendermätteli im Glück, Bern.",
+  robots: "noindex, nofollow",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
