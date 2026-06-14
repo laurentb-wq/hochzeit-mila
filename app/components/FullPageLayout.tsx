@@ -240,7 +240,7 @@ export default function FullPageLayout() {
 
             <Card className="text-center space-y-2 mb-3">
               <p className="text-xl font-bold" style={{ color: "#1E2614" }}>Festlich Sommerlich</p>
-              <p className="text-sm leading-relaxed" style={{ color: MUTED }}>Elegant genug für ein Hochzeitsfoto, bequem genug für die Tanzfläche um Mitternacht.</p>
+              <p className="text-sm leading-relaxed" style={{ color: MUTED }}>Elegant genug fürs Hochzeitsfoto, bequem genug bis zum letzten Programmpunkt.</p>
             </Card>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch">
               {[
