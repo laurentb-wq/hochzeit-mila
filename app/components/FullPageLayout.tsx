@@ -328,8 +328,8 @@ export default function FullPageLayout() {
                 </p>
                 <div className="space-y-2 text-sm" style={{ color: MUTED }}>
                   {[["Julia", "079 487 84 72"], ["Niro", "076 597 17 35"], ["Max", "079 748 96 85"]].map(([name, nr]) => (
-                    <div key={name} className="flex gap-3">
-                      <span className="font-semibold" style={{ color: "#1E2614", minWidth: 48 }}>{name}</span>
+                    <div key={name} style={{ display: "grid", gridTemplateColumns: "64px 1fr" }}>
+                      <span className="font-semibold" style={{ color: "#1E2614" }}>{name}</span>
                       <span>{nr}</span>
                     </div>
                   ))}
