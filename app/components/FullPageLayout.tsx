@@ -308,7 +308,7 @@ export default function FullPageLayout() {
                 <p className="text-2xl">🎁</p>
                 <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ACCENT }}>Geschenke</p>
                 <p className="text-sm leading-relaxed" style={{ color: MUTED }}>
-                  Wenn ihr uns was schenken wollt, freuen wir uns über einen Zuschuss in unsere Familienkasse.
+                  Wenn ihr uns was schenken wollt, freuen wir uns über einen Zustupf in unsere Familienkasse.
                 </p>
               </Card>
 
@@ -327,9 +327,12 @@ export default function FullPageLayout() {
                   Für alle Fragen, die lieber eine Überraschung bleiben sollen, helfen euch unsere Trauzeugin und unsere Trauzeugen gerne weiter:
                 </p>
                 <div className="space-y-2 text-sm" style={{ color: MUTED }}>
-                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Julia</span><span>079 487 84 72</span></div>
-                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Niro</span><span>076 597 17 35</span></div>
-                  <div className="flex justify-between"><span className="font-semibold" style={{ color: "#1E2614" }}>Max</span><span>079 748 96 85</span></div>
+                  {[["Julia", "079 487 84 72"], ["Niro", "076 597 17 35"], ["Max", "079 748 96 85"]].map(([name, nr]) => (
+                    <div key={name} className="flex gap-3">
+                      <span className="font-semibold" style={{ color: "#1E2614", minWidth: 48 }}>{name}</span>
+                      <span>{nr}</span>
+                    </div>
+                  ))}
                 </div>
               </Card>
 
