@@ -4,7 +4,7 @@ import BokehBackground from "./components/BokehBackground";
 
 export const metadata: Metadata = {
   title: "Mirjam & Laurent — 14. August 2026",
-  description: "Wir heiraten! Zehendermätteli im Glück, Bern.",
+  description: "Wir haben geheiratet — das wollen wir feiern! Bist du dabei?",
   robots: "noindex, nofollow",
   openGraph: {
     images: [{ url: "/Mibilabo1.jpg" }],
