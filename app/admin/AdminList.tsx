@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import * as XLSX from "xlsx";
 
 type ChildEntry = { age: string; remarks: string };
 export type Rsvp = {
@@ -18,31 +19,22 @@ export type Rsvp = {
 
 const inputCls = "w-full border border-[#CDD5B0] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#5C6B3A]";
 
-function toCsv(rsvps: Rsvp[]): string {
-  const cols = ["Name", "Begleitperson", "Teilnahme", "Unverträglichkeiten", "Kinder", "Kinder Alter", "Kinder bis Dessert", "Plan Kinder", "Datum"];
-  const rows = rsvps.map(r => [
-    r.name,
-    r.adult2_name ?? "",
-    r.attending === "yes" ? "Ja" : "Nein",
-    r.adult_remarks ?? "",
-    String(r.children_count ?? 0),
-    (r.children ?? []).map(c => `${c.age}J${c.remarks ? ` (${c.remarks})` : ""}`).join("; "),
-    r.kids_stay === "yes" ? "Ja" : r.kids_stay === "no" ? "Nein" : "",
-    r.kids_parents_leave ?? "",
-    new Date(r.created_at).toLocaleDateString("de-CH"),
-  ]);
-  return [cols, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
-}
-
-function downloadCsv(rsvps: Rsvp[]) {
-  const csv = toCsv(rsvps);
-  const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `anmeldungen-${new Date().toISOString().slice(0, 10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+function downloadExcel(rsvps: Rsvp[]) {
+  const rows = rsvps.map(r => ({
+    "Name": r.name,
+    "Begleitperson": r.adult2_name ?? "",
+    "Teilnahme": r.attending === "yes" ? "Ja" : "Nein",
+    "Unverträglichkeiten": r.adult_remarks ?? "",
+    "Kinder Anzahl": r.children_count ?? 0,
+    "Kinder Alter": (r.children ?? []).map(c => `${c.age}J${c.remarks ? ` (${c.remarks})` : ""}`).join("; "),
+    "Kinder bis Dessert": r.kids_stay === "yes" ? "Ja" : r.kids_stay === "no" ? "Nein" : "",
+    "Plan Kinder": r.kids_parents_leave ?? "",
+    "Datum": new Date(r.created_at).toLocaleDateString("de-CH"),
+  }));
+  const ws = XLSX.utils.json_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Anmeldungen");
+  XLSX.writeFile(wb, `anmeldungen-${new Date().toISOString().slice(0, 10)}.xlsx`);
 }
 
 function EditModal({ rsvp, onClose, onSave }: { rsvp: Rsvp; onClose: () => void; onSave: (updated: Partial<Rsvp>) => void }) {
@@ -205,11 +197,11 @@ export default function AdminList({ rsvps }: { rsvps: Rsvp[] }) {
     <div className="space-y-2">
       <div className="flex justify-end mb-2">
         <button
-          onClick={() => downloadCsv(rsvps)}
+          onClick={() => downloadExcel(rsvps)}
           className="px-4 py-2 rounded-xl text-xs font-semibold border border-[#CDD5B0] hover:bg-white transition"
           style={{ color: "#5C6B3A" }}
         >
-          ⬇ CSV exportieren
+          ⬇ Excel exportieren
         </button>
       </div>
       {rsvps.map(r => <RsvpRow key={r.id} rsvp={r} />)}
