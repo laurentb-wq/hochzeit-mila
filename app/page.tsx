@@ -13,7 +13,7 @@ export default function Home() {
       }}
     >
       <p style={{ fontSize: "0.875rem", fontWeight: 300, color: "#74825A", marginBottom: "1rem" }}>
-        Wir haben ja gesagt und das wollen wir feiern!
+        Schön wart ihr mit dabei. Danke für alles.
       </p>
       <h1 style={{ fontSize: "2.5rem", fontWeight: 700, color: "#1E2614", marginBottom: "0.75rem" }}>
         Mirjam &amp; Laurent
@@ -22,7 +22,9 @@ export default function Home() {
         14. August 2026 · Zehendermätteli · Bern
       </p>
       <a
-        href="/anmeldung"
+        href="https://drive.google.com/drive/folders/1PAc5HXgqXWm_xuPDPMEHPi32hJu9i9LT?usp=sharing"
+        target="_blank"
+        rel="noopener noreferrer"
         style={{
           background: "#5C6B3A",
           color: "white",
@@ -34,7 +36,7 @@ export default function Home() {
           textDecoration: "none",
         }}
       >
-        Zur Anmeldung
+        Zu den Fotos
       </a>
     </div>
   );
