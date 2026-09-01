@@ -31,12 +31,15 @@ export default function Home() {
         }}
       >
         <p style={{ fontSize: "0.875rem", fontWeight: 300, color: "#74825A", marginBottom: "1rem" }}>
-          Schön wart ihr mit dabei. Danke für alles.
+          Schön wart ihr mit dabei.
         </p>
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, color: "#1E2614", marginBottom: "0.75rem" }}>
-          Mirjam &amp; Laurent
+        <h1 style={{ fontSize: "clamp(2.5rem, 9vw, 4rem)", fontWeight: 700, color: "#1E2614", marginBottom: "1rem", lineHeight: 1.1 }}>
+          Danke für alles.
         </h1>
-        <p style={{ fontSize: "1.125rem", fontWeight: 300, color: "#74825A", marginBottom: "2rem" }}>
+        <p style={{ fontSize: "1.125rem", fontWeight: 500, color: "#1E2614", marginBottom: "0.35rem" }}>
+          Mirjam &amp; Laurent
+        </p>
+        <p style={{ fontSize: "1rem", fontWeight: 300, color: "#74825A", marginBottom: "2rem" }}>
           14. August 2026 · Zehendermätteli · Bern
         </p>
         <a
