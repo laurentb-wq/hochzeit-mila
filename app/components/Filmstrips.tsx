@@ -7,16 +7,18 @@
  *
  * Nahtlose Endlosschleife: die Bildsequenz wird verdoppelt und der Track
  * animiert von 0 auf -50 % — dadurch kein sichtbarer Sprung beim Wiederholen.
+ *
+ * Bilder: verkleinerte Auswahl aus dem Hochzeits-Drive-Ordner, public/hero/.
  */
 
-const PHOTOS = [
-  "/Mibilabo1.JPG",
-  "/Mibilabo2.JPG",
-  "/Mibilabo3.jpg",
-  "/Mibilaboalt.JPG",
-];
+const COUNT = 30;
+const ALL = Array.from({ length: COUNT }, (_, i) => `/hero/hero-${String(i + 1).padStart(2, "0")}.jpg`);
 
-// Leicht unterschiedliche Breiten, damit es wie ein echter Filmstreifen wirkt –
+// Obere und untere Reihe bekommen unterschiedliche Bilder, damit nichts doppelt läuft.
+const TOP = ALL.filter((_, i) => i % 2 === 0);
+const BOTTOM = ALL.filter((_, i) => i % 2 === 1);
+
+// Leicht unterschiedliche Breiten -> wirkt wie ein echter Filmstreifen,
 // die Höhe bleibt konstant, also bleibt der Streifen insgesamt ruhig.
 const WIDTHS = [
   "clamp(150px, 34vw, 244px)",
@@ -25,18 +27,20 @@ const WIDTHS = [
   "clamp(134px, 30vw, 214px)",
 ];
 
-const REPEATS = 5; // Grundsequenz pro Hälfte -> sicher breiter als jeder Viewport
+const REPEATS = 3; // Grundsequenz pro Hälfte -> sicher breiter als jeder Viewport
 
 function Strip({
+  photos,
   direction,
   rotate,
   edge,
 }: {
+  photos: string[];
   direction: "to-left" | "to-right";
   rotate: number;
   edge: { top: string } | { bottom: string };
 }) {
-  const half = Array.from({ length: REPEATS }, () => PHOTOS).flat();
+  const half = Array.from({ length: REPEATS }, () => photos).flat();
   const cells = [...half, ...half]; // verdoppelt für den nahtlosen Loop
 
   return (
@@ -63,8 +67,18 @@ function Strip({
 export default function Filmstrips() {
   return (
     <>
-      <Strip direction="to-right" rotate={-2.5} edge={{ top: "clamp(20px, 11vh, 132px)" }} />
-      <Strip direction="to-left" rotate={2.5} edge={{ bottom: "clamp(20px, 11vh, 132px)" }} />
+      <Strip
+        photos={TOP}
+        direction="to-right"
+        rotate={-2.5}
+        edge={{ top: "clamp(20px, 11vh, 132px)" }}
+      />
+      <Strip
+        photos={BOTTOM}
+        direction="to-left"
+        rotate={2.5}
+        edge={{ bottom: "clamp(20px, 11vh, 132px)" }}
+      />
     </>
   );
 }
