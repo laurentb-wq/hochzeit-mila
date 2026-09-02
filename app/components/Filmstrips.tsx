@@ -11,7 +11,7 @@
  * Bilder: verkleinerte Auswahl aus dem Hochzeits-Drive-Ordner, public/hero/.
  */
 
-const COUNT = 30;
+const COUNT = 19;
 const ALL = Array.from({ length: COUNT }, (_, i) => `/hero/hero-${String(i + 1).padStart(2, "0")}.jpg`);
 
 // Obere und untere Reihe bekommen unterschiedliche Bilder, damit nichts doppelt läuft.
@@ -27,7 +27,7 @@ const WIDTHS = [
   "clamp(134px, 30vw, 214px)",
 ];
 
-const REPEATS = 3; // Grundsequenz pro Hälfte -> sicher breiter als jeder Viewport
+const REPEATS = 4; // Grundsequenz pro Hälfte -> sicher breiter als jeder Viewport
 
 function Strip({
   photos,

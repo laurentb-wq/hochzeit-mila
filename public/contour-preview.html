@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Höhenlinien Vorschau</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #EAEDDA; overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif; color: #1E2614; }
+  canvas {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .page {
+    position: relative; z-index: 1;
+    height: 100svh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    background: #1E2614; height: 64px;
+    display: flex; align-items: center; justify-content: center; gap: 32px;
+  }
+  nav a { color: rgba(205,213,176,0.6); text-decoration: none; font-size: 14px; }
+  nav a.active { color: #CDD5B0; font-weight: 700; border-bottom: 2px solid #5C6B3A; padding-bottom: 2px; }
+  .label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.25em;
+    text-transform: uppercase; color: #5C6B3A; margin-bottom: 8px;
+  }
+  h1 { font-size: clamp(32px, 8vw, 64px); font-weight: 700; line-height: 1.1; margin-bottom: 12px; }
+  .sub { font-size: 18px; font-weight: 300; color: #74825A; margin-bottom: 32px; }
+  .cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; max-width: 680px; width: 100%; margin-top: 24px;
+  }
+  .card {
+    background: rgba(255,255,255,0.75); backdrop-filter: blur(8px);
+    border: 1px solid #CDD5B0; border-radius: 16px;
+    padding: 18px; text-align: left;
+  }
+  .card .icon { font-size: 22px; margin-bottom: 6px; }
+  .card .clabel { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #5C6B3A; margin-bottom: 4px; }
+  .card .ctitle { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .card .cdesc { font-size: 12px; color: #74825A; }
+  .countdown {
+    display: flex; gap: 24px; justify-content: center;
+    font-size: 13px; color: #74825A;
+  }
+  .countdown span { font-size: 28px; font-weight: 700; color: #1E2614; display: block; }
+  .divider { width: 40px; height: 2px; background: #5C6B3A; border-radius: 2px; margin: 12px auto 0; }
+  .photos { display: flex; gap: 12px; justify-content: center; margin-bottom: 24px; }
+  .photos div {
+    width: clamp(72px, 22vw, 120px); height: clamp(72px, 22vw, 120px);
+    border-radius: 16px; overflow: hidden; background: #CDD5B0;
+  }
+  .photos img { width: 100%; height: 100%; object-fit: cover; }
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<nav>
+  <a href="#" class="active">Programm</a>
+  <a href="#">Dresscode</a>
+  <a href="#">Anreise</a>
+  <a href="#">Anmeldung</a>
+</nav>
+
+<div class="page" style="padding-top: 64px;">
+  <div class="photos">
+    <div><img src="/Mibilabo2.JPG" onerror="this.style.display='none'"></div>
+    <div><img src="/mibilabo3.JPG" onerror="this.style.display='none'"></div>
+    <div><img src="/Mibilabo1.jpg" onerror="this.style.display='none'"></div>
+  </div>
+  <p class="label">Wir haben den nächsten Schritt gewagt 💍</p>
+  <h1>das wollen wir feiern!</h1>
+  <p class="sub">14. August 2026 · Zehendermätteli · Bern</p>
+  <div class="countdown">
+    <div><span id="days">—</span>Tage</div>
+    <div><span id="hrs">—</span>Stunden</div>
+    <div><span id="min">—</span>Minuten</div>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="icon">📅</div>
+      <div class="clabel">Datum</div>
+      <div class="ctitle">14. August 2026</div>
+      <div class="cdesc">Ab ca. 15:30 Uhr bis die Sterne zählen</div>
+    </div>
+    <div class="card">
+      <div class="icon">📍</div>
+      <div class="clabel">Location</div>
+      <div class="ctitle">Zehendermätteli</div>
+      <div class="cdesc">Reichenbachstrasse 161, 3004 Bern</div>
+    </div>
+    <div class="card">
+      <div class="icon">📋</div>
+      <div class="clabel">Anmeldung</div>
+      <div class="ctitle">Bis 1. Juli 2026</div>
+      <div class="cdesc">Damit die Küche weiss, wie viele Teller sie aufwärmen soll.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</div>
+
+<script>
+// Countdown
+function updateCountdown() {
+  const target = new Date('2026-08-14T15:30:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) return;
+  const days = Math.floor(diff / 86400000);
+  const hrs  = Math.floor((diff % 86400000) / 3600000);
+  const min  = Math.floor((diff % 3600000) / 60000);
+  document.getElementById('days').textContent = days;
+  document.getElementById('hrs').textContent  = hrs;
+  document.getElementById('min').textContent  = min;
+}
+updateCountdown();
+setInterval(updateCountdown, 10000);
+
+// Canvas
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const COLORS = [
+  [62,  77,  37],
+  [92,  107, 58],
+  [116, 130, 90],
+  [160, 175, 120],
+  [185, 175, 95],
+  [116, 130, 90],
+];
+
+function noise(x, y, t) {
+  return (
+    Math.sin(x * 0.008 + t * 0.3)  * Math.cos(y * 0.009 - t * 0.2)  * 0.4 +
+    Math.sin(x * 0.013 - t * 0.15) * Math.sin(y * 0.011 + t * 0.25) * 0.3 +
+    Math.cos(x * 0.005 + y * 0.007 + t * 0.1) * 0.2 +
+    Math.sin(x * 0.02  - y * 0.018 + t * 0.4) * 0.1
+  );
+}
+
+const LEVELS = 10;
+const STEP = 10;
+let t = 0;
+
+function draw() {
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.lineJoin = 'round';
+  ctx.lineCap  = 'round';
+
+  for (let level = 0; level < LEVELS; level++) {
+    const threshold = -1 + (2 / LEVELS) * level + 1 / LEVELS;
+    const [r, g, b] = COLORS[level % COLORS.length];
+    const opacity = 0.2 + (level / LEVELS) * 0.5;
+    ctx.strokeStyle = `rgba(${r},${g},${b},${opacity.toFixed(2)})`;
+    ctx.lineWidth = level % 4 === 0 ? 1.4 : 0.7;
+    ctx.beginPath();
+
+    for (let x = 0; x < W; x += STEP) {
+      for (let y = 0; y < H; y += STEP) {
+        const v00 = noise(x,        y,        t);
+        const v10 = noise(x + STEP, y,        t);
+        const v01 = noise(x,        y + STEP, t);
+        const v11 = noise(x + STEP, y + STEP, t);
+
+        const c00 = v00 > threshold ? 1 : 0;
+        const c10 = v10 > threshold ? 1 : 0;
+        const c01 = v01 > threshold ? 1 : 0;
+        const c11 = v11 > threshold ? 1 : 0;
+        const idx = c00 * 8 + c10 * 4 + c11 * 2 + c01;
+        if (idx === 0 || idx === 15) continue;
+
+        function lerp(a, b, va, vb) { return a + (b - a) * (threshold - va) / (vb - va); }
+
+        const top    = { x: lerp(x, x + STEP, v00, v10), y };
+        const bottom = { x: lerp(x, x + STEP, v01, v11), y: y + STEP };
+        const left   = { x, y: lerp(y, y + STEP, v00, v01) };
+        const right  = { x: x + STEP, y: lerp(y, y + STEP, v10, v11) };
+
+        let a = null, b2 = null;
+        if      (idx === 1 || idx === 14) { a = left;   b2 = bottom; }
+        else if (idx === 2 || idx === 13) { a = bottom; b2 = right;  }
+        else if (idx === 3 || idx === 12) { a = left;   b2 = right;  }
+        else if (idx === 4 || idx === 11) { a = top;    b2 = right;  }
+        else if (idx === 6 || idx === 9)  { a = top;    b2 = bottom; }
+        else if (idx === 7 || idx === 8)  { a = top;    b2 = left;   }
+        else if (idx === 5 || idx === 10) {
+          const mx = x + STEP * 0.5, my = y + STEP * 0.5;
+          ctx.moveTo(top.x, top.y);   ctx.quadraticCurveTo(mx, my, right.x,  right.y);
+          ctx.moveTo(left.x, left.y); ctx.quadraticCurveTo(mx, my, bottom.x, bottom.y);
+          continue;
+        }
+
+        if (a && b2) {
+          const mx = (a.x + b2.x) / 2, my = (a.y + b2.y) / 2;
+          ctx.moveTo(a.x, a.y);
+          ctx.quadraticCurveTo(mx, my, b2.x, b2.y);
+        }
+      }
+    }
+    ctx.stroke();
+  }
+
+  t += 0.01;
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
